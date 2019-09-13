@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>读取Excel数据</title>
+    <script type="text/javascript">
+        function formCheck(form){
+            if(form.excelFile.value == ""){
+                alert("请选择上传的文件");
+                return false;
+            }else{
+                var str= form.excelFile.value;
+                var lc = str.toLowerCase();
+                var arr = lc.split(".");
+                var extname = arr[arr.length-1];
+                if(extname != "xls" && extname != "xlsx"){
+                    alert("请选择excel格式文件！");
+                    return false;
+                }
+            }
+        }
+    </script>
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#btn').click(function(){
+                alert("ok");
+                $.ajax({
+                    url:"/onps/topo/excel.do",
+                    type:"post",
+                    //dataType:"json",
+                    data: new FormData($("#upload_form")[0]),
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="upload_div">
+    <span class="close"></span><!-- action="/springMVC_spring_mybatis/excelUpload/importExcel.do" method="post" enctype="multipart/form-data"  -->
+    <form id = "upload_form" class="upload_form" name="readExcel" onsubmit="return formCheck(this);">
+        <a href="javascript:;" class="selectBtn btn btn--stripe">
+            选择文件
+        </a>
+        <input class="select" type="file" name="excelFile">
+        <p class="file_name">lhhkh.xls</p>
+        <button id="btn" class="btn btn--stripe submit " type="button">导入</button>
+        <!-- <input id="btn" class="btn btn--stripe submit " type="submit" value="导入">   -->
+
+    </form>
+</div>
+</body>
+<script src="upload.js"></script>
+
+</html>

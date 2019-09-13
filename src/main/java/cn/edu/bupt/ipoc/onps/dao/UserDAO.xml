@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.bupt.ipoc.onps.dao.UserDAO">
+    <select id="selectRoleByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        select role.name from user_role, role
+        where user_role.user_id = #{id} and user_role.role_id = role.id
+    </select>
+    <select id="selectPermissionByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        select permission.name from user_role,role_permission,permission
+        where user_role.user_id = #{id} and user_role.role_id = role_permission.role_id and role_permission.permission_id = permission.id
+    </select>
+
+</mapper>

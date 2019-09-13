@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.bupt.ipoc.onps.dao.TrafficPOMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.bupt.ipoc.onps.model.po.TrafficPO" >
+    <constructor >
+      <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="layer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="from_node_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="to_node_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="rate" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="traffic_Rate" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="traffic_status" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="traffic_group_ip" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="traffic_level" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="year" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="effect" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="fall" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="cutoff" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="work_route_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="resume_route_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="protect_route_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="resume_route_for_protect_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="work_must_node_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="work_never_node_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="protect_must_node_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="protect_never_node_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="work_must_link_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="work_never_link_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="protect_must_link_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="protect_never_link_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fault_affected" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fault_type" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="priority_level" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="project_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, name, layer, from_node_id, to_node_id, rate, traffic_Rate, traffic_status, traffic_group_ip, 
+    traffic_level, year, effect, fall, cutoff, type, work_route_id, resume_route_id, 
+    protect_route_id, resume_route_for_protect_id, work_must_node_id, work_never_node_id, 
+    protect_must_node_id, protect_never_node_id, work_must_link_id, work_never_link_id, 
+    protect_must_link_id, protect_never_link_id, fault_affected, fault_type, priority_level, 
+    project_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.bupt.ipoc.onps.model.po.TrafficPOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from traffic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from traffic
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from traffic
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.bupt.ipoc.onps.model.po.TrafficPOExample" >
+    delete from traffic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.bupt.ipoc.onps.model.po.TrafficPO" >
+    insert into traffic (ID, name, layer, 
+      from_node_id, to_node_id, rate, 
+      traffic_Rate, traffic_status, traffic_group_ip, 
+      traffic_level, year, effect, 
+      fall, cutoff, type, 
+      work_route_id, resume_route_id, protect_route_id, 
+      resume_route_for_protect_id, work_must_node_id, 
+      work_never_node_id, protect_must_node_id, protect_never_node_id, 
+      work_must_link_id, work_never_link_id, protect_must_link_id, 
+      protect_never_link_id, fault_affected, fault_type, 
+      priority_level, project_id)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{layer,jdbcType=VARCHAR}, 
+      #{fromNodeId,jdbcType=VARCHAR}, #{toNodeId,jdbcType=VARCHAR}, #{rate,jdbcType=DOUBLE}, 
+      #{trafficRate,jdbcType=VARCHAR}, #{trafficStatus,jdbcType=VARCHAR}, #{trafficGroupIp,jdbcType=VARCHAR}, 
+      #{trafficLevel,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{effect,jdbcType=INTEGER}, 
+      #{fall,jdbcType=INTEGER}, #{cutoff,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
+      #{workRouteId,jdbcType=VARCHAR}, #{resumeRouteId,jdbcType=VARCHAR}, #{protectRouteId,jdbcType=VARCHAR}, 
+      #{resumeRouteForProtectId,jdbcType=VARCHAR}, #{workMustNodeId,jdbcType=VARCHAR}, 
+      #{workNeverNodeId,jdbcType=VARCHAR}, #{protectMustNodeId,jdbcType=VARCHAR}, #{protectNeverNodeId,jdbcType=VARCHAR}, 
+      #{workMustLinkId,jdbcType=VARCHAR}, #{workNeverLinkId,jdbcType=VARCHAR}, #{protectMustLinkId,jdbcType=VARCHAR}, 
+      #{protectNeverLinkId,jdbcType=VARCHAR}, #{faultAffected,jdbcType=VARCHAR}, #{faultType,jdbcType=INTEGER}, 
+      #{priorityLevel,jdbcType=INTEGER}, #{projectId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.bupt.ipoc.onps.model.po.TrafficPO" >
+    insert into traffic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="layer != null" >
+        layer,
+      </if>
+      <if test="fromNodeId != null" >
+        from_node_id,
+      </if>
+      <if test="toNodeId != null" >
+        to_node_id,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="trafficRate != null" >
+        traffic_Rate,
+      </if>
+      <if test="trafficStatus != null" >
+        traffic_status,
+      </if>
+      <if test="trafficGroupIp != null" >
+        traffic_group_ip,
+      </if>
+      <if test="trafficLevel != null" >
+        traffic_level,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="effect != null" >
+        effect,
+      </if>
+      <if test="fall != null" >
+        fall,
+      </if>
+      <if test="cutoff != null" >
+        cutoff,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="workRouteId != null" >
+        work_route_id,
+      </if>
+      <if test="resumeRouteId != null" >
+        resume_route_id,
+      </if>
+      <if test="protectRouteId != null" >
+        protect_route_id,
+      </if>
+      <if test="resumeRouteForProtectId != null" >
+        resume_route_for_protect_id,
+      </if>
+      <if test="workMustNodeId != null" >
+        work_must_node_id,
+      </if>
+      <if test="workNeverNodeId != null" >
+        work_never_node_id,
+      </if>
+      <if test="protectMustNodeId != null" >
+        protect_must_node_id,
+      </if>
+      <if test="protectNeverNodeId != null" >
+        protect_never_node_id,
+      </if>
+      <if test="workMustLinkId != null" >
+        work_must_link_id,
+      </if>
+      <if test="workNeverLinkId != null" >
+        work_never_link_id,
+      </if>
+      <if test="protectMustLinkId != null" >
+        protect_must_link_id,
+      </if>
+      <if test="protectNeverLinkId != null" >
+        protect_never_link_id,
+      </if>
+      <if test="faultAffected != null" >
+        fault_affected,
+      </if>
+      <if test="faultType != null" >
+        fault_type,
+      </if>
+      <if test="priorityLevel != null" >
+        priority_level,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="layer != null" >
+        #{layer,jdbcType=VARCHAR},
+      </if>
+      <if test="fromNodeId != null" >
+        #{fromNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="toNodeId != null" >
+        #{toNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=DOUBLE},
+      </if>
+      <if test="trafficRate != null" >
+        #{trafficRate,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficStatus != null" >
+        #{trafficStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficGroupIp != null" >
+        #{trafficGroupIp,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficLevel != null" >
+        #{trafficLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="effect != null" >
+        #{effect,jdbcType=INTEGER},
+      </if>
+      <if test="fall != null" >
+        #{fall,jdbcType=INTEGER},
+      </if>
+      <if test="cutoff != null" >
+        #{cutoff,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="workRouteId != null" >
+        #{workRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeRouteId != null" >
+        #{resumeRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectRouteId != null" >
+        #{protectRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeRouteForProtectId != null" >
+        #{resumeRouteForProtectId,jdbcType=VARCHAR},
+      </if>
+      <if test="workMustNodeId != null" >
+        #{workMustNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="workNeverNodeId != null" >
+        #{workNeverNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectMustNodeId != null" >
+        #{protectMustNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectNeverNodeId != null" >
+        #{protectNeverNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="workMustLinkId != null" >
+        #{workMustLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="workNeverLinkId != null" >
+        #{workNeverLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectMustLinkId != null" >
+        #{protectMustLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectNeverLinkId != null" >
+        #{protectNeverLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="faultAffected != null" >
+        #{faultAffected,jdbcType=VARCHAR},
+      </if>
+      <if test="faultType != null" >
+        #{faultType,jdbcType=INTEGER},
+      </if>
+      <if test="priorityLevel != null" >
+        #{priorityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.bupt.ipoc.onps.model.po.TrafficPOExample" resultType="java.lang.Integer" >
+    select count(*) from traffic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update traffic
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.layer != null" >
+        layer = #{record.layer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromNodeId != null" >
+        from_node_id = #{record.fromNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toNodeId != null" >
+        to_node_id = #{record.toNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rate != null" >
+        rate = #{record.rate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.trafficRate != null" >
+        traffic_Rate = #{record.trafficRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trafficStatus != null" >
+        traffic_status = #{record.trafficStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trafficGroupIp != null" >
+        traffic_group_ip = #{record.trafficGroupIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trafficLevel != null" >
+        traffic_level = #{record.trafficLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.effect != null" >
+        effect = #{record.effect,jdbcType=INTEGER},
+      </if>
+      <if test="record.fall != null" >
+        fall = #{record.fall,jdbcType=INTEGER},
+      </if>
+      <if test="record.cutoff != null" >
+        cutoff = #{record.cutoff,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workRouteId != null" >
+        work_route_id = #{record.workRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resumeRouteId != null" >
+        resume_route_id = #{record.resumeRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protectRouteId != null" >
+        protect_route_id = #{record.protectRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resumeRouteForProtectId != null" >
+        resume_route_for_protect_id = #{record.resumeRouteForProtectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workMustNodeId != null" >
+        work_must_node_id = #{record.workMustNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workNeverNodeId != null" >
+        work_never_node_id = #{record.workNeverNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protectMustNodeId != null" >
+        protect_must_node_id = #{record.protectMustNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protectNeverNodeId != null" >
+        protect_never_node_id = #{record.protectNeverNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workMustLinkId != null" >
+        work_must_link_id = #{record.workMustLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workNeverLinkId != null" >
+        work_never_link_id = #{record.workNeverLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protectMustLinkId != null" >
+        protect_must_link_id = #{record.protectMustLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protectNeverLinkId != null" >
+        protect_never_link_id = #{record.protectNeverLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faultAffected != null" >
+        fault_affected = #{record.faultAffected,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faultType != null" >
+        fault_type = #{record.faultType,jdbcType=INTEGER},
+      </if>
+      <if test="record.priorityLevel != null" >
+        priority_level = #{record.priorityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update traffic
+    set ID = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      layer = #{record.layer,jdbcType=VARCHAR},
+      from_node_id = #{record.fromNodeId,jdbcType=VARCHAR},
+      to_node_id = #{record.toNodeId,jdbcType=VARCHAR},
+      rate = #{record.rate,jdbcType=DOUBLE},
+      traffic_Rate = #{record.trafficRate,jdbcType=VARCHAR},
+      traffic_status = #{record.trafficStatus,jdbcType=VARCHAR},
+      traffic_group_ip = #{record.trafficGroupIp,jdbcType=VARCHAR},
+      traffic_level = #{record.trafficLevel,jdbcType=VARCHAR},
+      year = #{record.year,jdbcType=INTEGER},
+      effect = #{record.effect,jdbcType=INTEGER},
+      fall = #{record.fall,jdbcType=INTEGER},
+      cutoff = #{record.cutoff,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=VARCHAR},
+      work_route_id = #{record.workRouteId,jdbcType=VARCHAR},
+      resume_route_id = #{record.resumeRouteId,jdbcType=VARCHAR},
+      protect_route_id = #{record.protectRouteId,jdbcType=VARCHAR},
+      resume_route_for_protect_id = #{record.resumeRouteForProtectId,jdbcType=VARCHAR},
+      work_must_node_id = #{record.workMustNodeId,jdbcType=VARCHAR},
+      work_never_node_id = #{record.workNeverNodeId,jdbcType=VARCHAR},
+      protect_must_node_id = #{record.protectMustNodeId,jdbcType=VARCHAR},
+      protect_never_node_id = #{record.protectNeverNodeId,jdbcType=VARCHAR},
+      work_must_link_id = #{record.workMustLinkId,jdbcType=VARCHAR},
+      work_never_link_id = #{record.workNeverLinkId,jdbcType=VARCHAR},
+      protect_must_link_id = #{record.protectMustLinkId,jdbcType=VARCHAR},
+      protect_never_link_id = #{record.protectNeverLinkId,jdbcType=VARCHAR},
+      fault_affected = #{record.faultAffected,jdbcType=VARCHAR},
+      fault_type = #{record.faultType,jdbcType=INTEGER},
+      priority_level = #{record.priorityLevel,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.bupt.ipoc.onps.model.po.TrafficPO" >
+    update traffic
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="layer != null" >
+        layer = #{layer,jdbcType=VARCHAR},
+      </if>
+      <if test="fromNodeId != null" >
+        from_node_id = #{fromNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="toNodeId != null" >
+        to_node_id = #{toNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=DOUBLE},
+      </if>
+      <if test="trafficRate != null" >
+        traffic_Rate = #{trafficRate,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficStatus != null" >
+        traffic_status = #{trafficStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficGroupIp != null" >
+        traffic_group_ip = #{trafficGroupIp,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficLevel != null" >
+        traffic_level = #{trafficLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="effect != null" >
+        effect = #{effect,jdbcType=INTEGER},
+      </if>
+      <if test="fall != null" >
+        fall = #{fall,jdbcType=INTEGER},
+      </if>
+      <if test="cutoff != null" >
+        cutoff = #{cutoff,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="workRouteId != null" >
+        work_route_id = #{workRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeRouteId != null" >
+        resume_route_id = #{resumeRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectRouteId != null" >
+        protect_route_id = #{protectRouteId,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeRouteForProtectId != null" >
+        resume_route_for_protect_id = #{resumeRouteForProtectId,jdbcType=VARCHAR},
+      </if>
+      <if test="workMustNodeId != null" >
+        work_must_node_id = #{workMustNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="workNeverNodeId != null" >
+        work_never_node_id = #{workNeverNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectMustNodeId != null" >
+        protect_must_node_id = #{protectMustNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectNeverNodeId != null" >
+        protect_never_node_id = #{protectNeverNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="workMustLinkId != null" >
+        work_must_link_id = #{workMustLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="workNeverLinkId != null" >
+        work_never_link_id = #{workNeverLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectMustLinkId != null" >
+        protect_must_link_id = #{protectMustLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="protectNeverLinkId != null" >
+        protect_never_link_id = #{protectNeverLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="faultAffected != null" >
+        fault_affected = #{faultAffected,jdbcType=VARCHAR},
+      </if>
+      <if test="faultType != null" >
+        fault_type = #{faultType,jdbcType=INTEGER},
+      </if>
+      <if test="priorityLevel != null" >
+        priority_level = #{priorityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.bupt.ipoc.onps.model.po.TrafficPO" >
+    update traffic
+    set name = #{name,jdbcType=VARCHAR},
+      layer = #{layer,jdbcType=VARCHAR},
+      from_node_id = #{fromNodeId,jdbcType=VARCHAR},
+      to_node_id = #{toNodeId,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=DOUBLE},
+      traffic_Rate = #{trafficRate,jdbcType=VARCHAR},
+      traffic_status = #{trafficStatus,jdbcType=VARCHAR},
+      traffic_group_ip = #{trafficGroupIp,jdbcType=VARCHAR},
+      traffic_level = #{trafficLevel,jdbcType=VARCHAR},
+      year = #{year,jdbcType=INTEGER},
+      effect = #{effect,jdbcType=INTEGER},
+      fall = #{fall,jdbcType=INTEGER},
+      cutoff = #{cutoff,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      work_route_id = #{workRouteId,jdbcType=VARCHAR},
+      resume_route_id = #{resumeRouteId,jdbcType=VARCHAR},
+      protect_route_id = #{protectRouteId,jdbcType=VARCHAR},
+      resume_route_for_protect_id = #{resumeRouteForProtectId,jdbcType=VARCHAR},
+      work_must_node_id = #{workMustNodeId,jdbcType=VARCHAR},
+      work_never_node_id = #{workNeverNodeId,jdbcType=VARCHAR},
+      protect_must_node_id = #{protectMustNodeId,jdbcType=VARCHAR},
+      protect_never_node_id = #{protectNeverNodeId,jdbcType=VARCHAR},
+      work_must_link_id = #{workMustLinkId,jdbcType=VARCHAR},
+      work_never_link_id = #{workNeverLinkId,jdbcType=VARCHAR},
+      protect_must_link_id = #{protectMustLinkId,jdbcType=VARCHAR},
+      protect_never_link_id = #{protectNeverLinkId,jdbcType=VARCHAR},
+      fault_affected = #{faultAffected,jdbcType=VARCHAR},
+      fault_type = #{faultType,jdbcType=INTEGER},
+      priority_level = #{priorityLevel,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

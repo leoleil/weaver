@@ -1,0 +1,17 @@
+body{
+    background-image: url(../image/background.jpg);
+    background-size: 100%;
+    
+}
+h3 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+img {
+    height: 145px;
+}
+#menu{
+	margin: 10px;
+	background:rgba(0, 0, 0, 0.3)
+}

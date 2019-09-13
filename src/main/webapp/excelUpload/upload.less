@@ -1,0 +1,128 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.upload_div{
+	width: 500px;
+	height: 300px;
+	text-align: center;
+	margin: 0 auto;
+	position: relative;
+	top: 160px;
+	background: #F8F8F5;
+    border-radius: 5px;
+    box-shadow: 8px 15px 45px 8px #5A5A5A;
+    .close{
+    	background: url('close_2.png');
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        display: block;
+        top: 1%;
+        right: 1%;
+        transition: all 0.6s linear;
+    }
+    .close:hover{
+        transform: scale(1.1) rotate(90deg);
+        // transform: scale(1.1);
+    }
+}
+
+.upload_form{
+	// border: 1px solid black;
+	position: absolute;
+	top: 60px;
+	width: 100%;
+}
+
+.select{
+	display: none;
+}
+
+@keyframes stripe-slide {
+  0% {
+    background-position: 0% 0; }
+  100% {
+    background-position: 100% 0; } 
+}
+.btn {
+  overflow: visible;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  line-height: normal;
+  cursor: pointer;
+  -moz-user-select: text;
+  display: block;
+  letter-spacing: 2px;
+  font-size: 18px;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 12px 35px 20px;
+  background-color: #fff;
+  color: #666;
+  border: 2px solid #666;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  transition: all .5s ease; 
+
+}
+.btn:-moz-focus-inner {
+	padding: 0;
+	border: 0; 
+}
+.btn--stripe {
+	overflow: hidden;
+	position: relative;
+	width: 240px;
+}
+.btn--stripe:after {
+	content: '';
+	display: block;
+	height: 7px;
+	width: 100%;
+	background-image: repeating-linear-gradient(45deg, #666, #666 1px, transparent 2px, transparent 5px);
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	border-top: 1px solid #666;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background-size: 7px 7px;
+}
+.btn--stripe:hover {
+	background-color: #666;
+	color: #fff;
+	border-color: #000; 
+}
+.btn--stripe:hover:after {
+    background-image: repeating-linear-gradient(45deg, #fff, #fff 1px, transparent 2px, transparent 5px);
+    border-top: 1px solid #000;
+    animation: stripe-slide 12s infinite linear forwards; 
+}
+.btn--large {
+	width: 50%;	 
+}
+.btn--radius {
+	border-radius: 36px; 
+}
+
+.file_name{
+	color: #FC0107;
+	display: none;
+}
+
+.submit{
+	display: block;
+	margin: 20px auto;
+	outline: none;
+	line-height: 30px;
+	padding-bottom: 10px;
+	letter-spacing: 4px;
+	margin-top: 30px;
+}
+
+

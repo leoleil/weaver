@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+		<!-- 组件扫描,用来扫描base_package包下所有的@在spring中生成bean -->
+		<context:component-scan base-package="cn.edu.bupt.ipoc.onps"></context:component-scan>
+		<!-- 不配置这个,shiro的授权方法不会自动调用 -->
+	   	<!--<aop:config proxy-target-class="true"></aop:config>-->
+		<!-- 开启shiro的注解支持 -->
+		<bean id="defaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+			  depends-on="lifecycleBeanPostProcessor">
+			<property name="proxyTargetClass" value="true" />
+		</bean>
+		<bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+			<!--设置Shiro的securityManager-->
+			<property name="securityManager" ref="securityManager"/>
+		</bean>
+		
+		<!--配置注解driven ,默认会生成处理器映射器和处理器适配器,不需要再另外配置-->
+		<mvc:annotation-driven>
+			<mvc:argument-resolvers>
+				<bean class="cn.edu.bupt.ipoc.onps.resovler.PageInfoResolver"/>
+			</mvc:argument-resolvers>
+		</mvc:annotation-driven>
+
+		<mvc:default-servlet-handler/>
+		<!--<mvc:resources location="/js/" mapping="/js/**"/>
+        <mvc:resources location="/css/" mapping="/css/**" />
+        <mvc:resources location="/images/" mapping="/images/**" />-->
+         <!-- 返回json 方法一 需要导入 fastjson.jar包 -->  
+	    <mvc:annotation-driven>
+	        <mvc:message-converters register-defaults="false">
+	            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+	            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+	                <property name="supportedMediaTypes">
+	                    <list>
+	                        <!-- 这里顺序不能反，一定先写text/html,不然ie下出现下载提示 -->
+	                        <value>text/html;charset=UTF-8</value>
+	                        <value>application/json;charset=UTF-8</value>
+	                    </list>
+	                </property>
+	            </bean>
+	        </mvc:message-converters>
+	    </mvc:annotation-driven>
+		<!-- 配置注解处理器映射器 
+			功能：寻找执行类Controller
+		 <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+		-->
+		<!-- 配置注解处理器适配器 
+			功能：调用controller方法，执行controller
+	
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+			-->
+		
+		<!-- 配置全局异常捕获 -->
+		<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+			<property name="exceptionMappings">
+				<props>
+					<prop key="org.apache.shiro.authz.UnauthorizedException">error</prop>
+				</props>
+			</property>	
+		</bean>
+		
+		<!-- 单文件上传 -->
+		<bean id="multipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="maxUploadSize" value="10485760000" />
+			<property name="maxInMemorySize" value="4096" />
+		</bean>
+		
+		<!--<bean id="exceptionResolver" class="com.project.shiro.ShiroExceptionResolver"/>-->
+
+		<!-- 配置注解驱动-->
+		<mvc:annotation-driven/>
+		<!--静态资源访问-->
+		<mvc:default-servlet-handler/>
+		<!-- 配置sprigmvc视图解析器：解析逻辑试图
+		-->
+		<!--视图解析器-->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="order" value="0"></property>
+			<property name="prefix" value="/"/>
+			<property name="suffix" value=".html"/>
+			<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		</bean>
+</beans>
