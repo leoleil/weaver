@@ -98,7 +98,7 @@ public abstract class BasicLink implements Link {
         protected abstract T self();
 
         public T sequence(int sequence){this.sequence = sequence; return self();}
-        public T length(int length){this.length = length; return self();}
+        public T length(double length){this.length = length; return self();}
         public T rate(double rate){this.rate = rate; return self();}
         public T year(int year){this.year = year; return self();}
         public T caption(int caption){this.caption = caption; return self();}
@@ -240,6 +240,26 @@ public abstract class BasicLink implements Link {
 
     public Port getToPort() {
         return toPort;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public boolean addTraffic(Traffic traffic){

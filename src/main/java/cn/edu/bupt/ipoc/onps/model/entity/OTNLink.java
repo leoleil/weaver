@@ -4,16 +4,17 @@ import cn.edu.bupt.ipoc.onps.utils.LayerString;
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class OTNLink extends BasicLink{
     private	String carriedType;//承载媒介，光缆还是WDM
-    private List<BasicLink> basicLinkList;//层间路由
+    private List<BasicLink> layerRouteLinkList;//层间路由
     private	List<OTU> OTUList;//包含的ONU链
     private	List<OTU> exOTUList;//扩容ONU链路
     public static class Builder extends BasicLink.Builder<Builder>{
         private	String carriedType;//承载媒介，光缆还是WDM
-        private List<BasicLink> basicLinkList;//层间路由
+        private List<BasicLink> layerRouteLinkList;//层间路由
         private	List<OTU> OTUList;//包含的ONU链
         private	List<OTU> exOTUList;//扩容ONU链路
         private List<String> linkResIdList;
@@ -46,8 +47,8 @@ public class OTNLink extends BasicLink{
             return self();
         }
 
-        public Builder layerRoute(List<BasicLink> basicLinkList){
-            this.basicLinkList = basicLinkList;
+        public Builder layerRoute(List<BasicLink> layerRouteLinkList){
+            this.layerRouteLinkList = layerRouteLinkList;
             return self();
         }
 
@@ -100,37 +101,37 @@ public class OTNLink extends BasicLink{
         //占据层间路由
         this.carriedType = builder.carriedType;
         this.OTUList = builder.OTUList;
-        this.basicLinkList = builder.basicLinkList;
-        if(carriedType.equals(LayerString.FIBER) && basicLinkList != null && builder.linkResIdList == null){
-            for(BasicLink link:basicLinkList){
+        this.layerRouteLinkList = builder.layerRouteLinkList;
+        if(carriedType.equals(LayerString.FIBER) && layerRouteLinkList != null && builder.linkResIdList == null){
+            for(BasicLink link:layerRouteLinkList){
                 if(link instanceof FiberLink){
                     ((FiberLink) link).occupyFiber(this);
                 }
             }
-        }else if(carriedType.equals(LayerString.WDM) && basicLinkList != null && builder.linkResIdList == null){
-            for(BasicLink link:basicLinkList){
+        }else if(carriedType.equals(LayerString.WDM) && layerRouteLinkList != null && builder.linkResIdList == null){
+            for(BasicLink link:layerRouteLinkList){
                 if(link instanceof WDMLink){
                     ((WDMLink) link).occupyWavelength(this);
                 }
             }
         }
-        else if(carriedType.equals(LayerString.FIBER) && basicLinkList != null && builder.linkResIdList != null){
-            for(int i=0;i<basicLinkList.size();i++){
-                BasicLink link = basicLinkList.get(i);
+        else if(carriedType.equals(LayerString.FIBER) && layerRouteLinkList != null && builder.linkResIdList != null){
+            for(int i=0;i<layerRouteLinkList.size();i++){
+                BasicLink link = layerRouteLinkList.get(i);
                 if(link instanceof FiberLink){
                     ((FiberLink) link).occupyFiber(this,builder.linkResIdList.get(i));
                 }
             }
-        }else if(carriedType.equals(LayerString.WDM) && basicLinkList != null && builder.linkResIdList != null){
-            for(int i=0;i<basicLinkList.size();i++){
-                BasicLink link = basicLinkList.get(i);
+        }else if(carriedType.equals(LayerString.WDM) && layerRouteLinkList != null && builder.linkResIdList != null){
+            for(int i=0;i<layerRouteLinkList.size();i++){
+                BasicLink link = layerRouteLinkList.get(i);
                 if(link instanceof WDMLink){
                     ((WDMLink) link).occupyWavelength(this,builder.linkResIdList.get(i));
                 }
             }
         }
         else{
-            basicLinkList = new ArrayList<>();
+            layerRouteLinkList = new ArrayList<>();
         }
     }
 
@@ -158,5 +159,38 @@ public class OTNLink extends BasicLink{
         }
         return false;
     }
+    public boolean addSize(int addSize){
+        if(addSize < 0){
+            Iterator<OTU> otuIterator = OTUList.iterator();
+            while (otuIterator.hasNext() && addSize<0){
+                OTU otu = otuIterator.next();
+                if(otu.getStatus().equals(LinkStatusString.FREE)){
+                    otuIterator.remove();
+                    addSize++;
+                }
+            }
+            return true;
+        }else if (addSize > 0){
+            while (addSize>0){
+                OTU otu = new OTU();
+                OTUList.add(otu);
+                addSize--;
+            }
+            return true;
+        }else{
+            return true;
+        }
+    }
 
+    public String getCarriedType() {
+        return carriedType;
+    }
+
+    public List<OTU> getOTUList() {
+        return OTUList;
+    }
+
+    public List<OTU> getExOTUList() {
+        return exOTUList;
+    }
 }

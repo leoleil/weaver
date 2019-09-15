@@ -4,13 +4,14 @@ import cn.edu.bupt.ipoc.onps.utils.LayerString;
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class FiberLink extends BasicLink {
     private int fualtTime=0;//平均每年故障时间  ？天
     private int completedYear=0;//竣工年份
     private double aveAttenua=0;//平均衰耗
-    private List<Fiber> fibers;//光纤
+    private List<Fiber> fibers = new ArrayList<>();//光纤
     private String perfunctoryWay;//敷设方式
 
     public static class Builder extends BasicLink.Builder<Builder>{
@@ -164,4 +165,28 @@ public class FiberLink extends BasicLink {
         }
         return false;
     }
+
+    public boolean addSize(int addSize){
+        if(addSize < 0){
+            Iterator<Fiber> fiberIterator = fibers.iterator();
+            while (fiberIterator.hasNext() && addSize<0){
+                Fiber fiber = fiberIterator.next();
+                if(fiber.getStatus().equals(LinkStatusString.FREE)){
+                    fiberIterator.remove();
+                    addSize++;
+                }
+            }
+            return true;
+        }else if (addSize > 0){
+            while (addSize>0){
+                Fiber fiber = new Fiber();
+                fibers.add(fiber);
+                addSize--;
+            }
+            return true;
+        }else{
+            return true;
+        }
+    }
+
 }

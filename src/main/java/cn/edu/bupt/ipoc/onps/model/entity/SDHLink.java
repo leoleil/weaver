@@ -1,8 +1,10 @@
 package cn.edu.bupt.ipoc.onps.model.entity;
 
 import cn.edu.bupt.ipoc.onps.utils.LayerString;
+import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SDHLink extends BasicLink {
@@ -10,7 +12,7 @@ public class SDHLink extends BasicLink {
     private	String					    carriedType;	    //承载媒介，光缆还是WDM
     private	boolean			            gran=false;         //标示是否复用,false为没有小粒度业务，true为有小粒度业务
     private List<SDHRing>               SDHRing;            //该SDH链所属环
-    private	List<BasicLink>	 	        basicLinkList;      //如果承载在光缆上的对应的Fiber层链路链表
+    private	List<BasicLink>	 	        layerRouteLinkList;      //如果承载在光缆上的对应的Fiber层链路链表
     private	List<Timeslot>	 	        timeslotList;       //包含的时隙链
     private	List<Timeslot>	 	        exTimeslotList;     //扩容时隙
 
@@ -19,7 +21,7 @@ public class SDHLink extends BasicLink {
         private	String					    carriedType;	    //承载媒介，光缆还是WDM
         private	boolean			            gran=false;         //标示是否复用,false为没有小粒度业务，true为有小粒度业务
         private List<SDHRing>               SDHRing;            //该SDH链所属环
-        private	List<BasicLink>	 	        basicLinkList;      //如果承载在光缆上的对应的Fiber层链路链表
+        private	List<BasicLink>	 	        layerRouteLinkList;      //如果承载在光缆上的对应的Fiber层链路链表
         private	List<Timeslot>	 	        timeslotList;       //包含的时隙链
         private	List<Timeslot>	 	        exTimeslotList;     //扩容时隙
         private List<String> linkResIdList;
@@ -50,8 +52,8 @@ public class SDHLink extends BasicLink {
             return self();
         }
 
-        public Builder layerRoute(List<BasicLink> basicLinkList){
-            this.basicLinkList = basicLinkList;
+        public Builder layerRoute(List<BasicLink> layerRouteLinkList){
+            this.layerRouteLinkList = layerRouteLinkList;
             return self();
         }
 
@@ -103,52 +105,80 @@ public class SDHLink extends BasicLink {
         super(builder);
         this.carriedType = builder.carriedType;
         this.timeslotList = builder.timeslotList;
-        this.basicLinkList = builder.basicLinkList;
+        this.layerRouteLinkList = builder.layerRouteLinkList;
         //占据层间路由
-        if(carriedType.equals(LayerString.FIBER) && basicLinkList != null){
-            for(BasicLink link:basicLinkList){
+        if(carriedType.equals(LayerString.FIBER) && layerRouteLinkList != null){
+            for(BasicLink link:layerRouteLinkList){
                 if(link instanceof FiberLink){
                     ((FiberLink) link).occupyFiber(this);
                 }
             }
-        }else if(carriedType.equals(LayerString.WDM) && basicLinkList != null){
-            for(BasicLink link:basicLinkList){
+        }else if(carriedType.equals(LayerString.WDM) && layerRouteLinkList != null){
+            for(BasicLink link:layerRouteLinkList){
                 if(link instanceof WDMLink){
                     ((WDMLink) link).occupyWavelength(this);
                 }
             }
-        }else if(carriedType.equals(LayerString.OTN) && basicLinkList != null){
-            for(BasicLink link:basicLinkList){
+        }else if(carriedType.equals(LayerString.OTN) && layerRouteLinkList != null){
+            for(BasicLink link:layerRouteLinkList){
                 if(link instanceof OTNLink){
                     ((OTNLink) link).occupyOTU(this);
                 }
             }
         }
-        else if(carriedType.equals(LayerString.FIBER) && basicLinkList != null && builder.linkResIdList != null){
-            for(int i=0;i<basicLinkList.size();i++){
-                BasicLink link = basicLinkList.get(i);
+        else if(carriedType.equals(LayerString.FIBER) && layerRouteLinkList != null && builder.linkResIdList != null){
+            for(int i=0;i<layerRouteLinkList.size();i++){
+                BasicLink link = layerRouteLinkList.get(i);
                 if(link instanceof FiberLink){
                     ((FiberLink) link).occupyFiber(this,builder.linkResIdList.get(i));
                 }
             }
-        }else if(carriedType.equals(LayerString.WDM) && basicLinkList != null && builder.linkResIdList != null){
-            for(int i=0;i<basicLinkList.size();i++){
-                BasicLink link = basicLinkList.get(i);
+        }else if(carriedType.equals(LayerString.WDM) && layerRouteLinkList != null && builder.linkResIdList != null){
+            for(int i=0;i<layerRouteLinkList.size();i++){
+                BasicLink link = layerRouteLinkList.get(i);
                 if(link instanceof WDMLink){
                     ((WDMLink) link).occupyWavelength(this,builder.linkResIdList.get(i));
                 }
             }
-        } else if(carriedType.equals(LayerString.OTN) && basicLinkList != null && builder.linkResIdList != null){
-            for(int i=0;i<basicLinkList.size();i++){
-                BasicLink link = basicLinkList.get(i);
+        } else if(carriedType.equals(LayerString.OTN) && layerRouteLinkList != null && builder.linkResIdList != null){
+            for(int i=0;i<layerRouteLinkList.size();i++){
+                BasicLink link = layerRouteLinkList.get(i);
                 if(link instanceof OTNLink){
                     ((OTNLink) link).occupyOTU(this,builder.linkResIdList.get(i));
                 }
             }
         }
         else {
-            basicLinkList = new ArrayList<>();
+            layerRouteLinkList = new ArrayList<>();
         }
 
+    }
+
+    public boolean addSize(int addSize){
+        if(addSize < 0){
+            Iterator<Timeslot> timeslotIterator= timeslotList.iterator();
+            while (timeslotIterator.hasNext() && addSize<0){
+                Timeslot timeslot = timeslotIterator.next();
+                if(timeslot.getStatus().equals(LinkStatusString.FREE)){
+                    timeslotIterator.remove();
+                    addSize++;
+                }
+            }
+            return true;
+        }else if (addSize > 0){
+            while (addSize>0){
+                Timeslot timeslot = new Timeslot();
+                timeslotList.add(timeslot);
+                addSize--;
+            }
+            return true;
+        }else{
+            return true;
+        }
+    }
+    
+
+    public List<Timeslot> getTimeslotList() {
+        return timeslotList;
     }
 }

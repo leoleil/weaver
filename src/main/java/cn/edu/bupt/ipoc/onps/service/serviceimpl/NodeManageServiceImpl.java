@@ -3,6 +3,7 @@ package cn.edu.bupt.ipoc.onps.service.serviceimpl;
 import cn.edu.bupt.ipoc.onps.model.Node;
 import cn.edu.bupt.ipoc.onps.model.entity.BasicLink;
 import cn.edu.bupt.ipoc.onps.model.entity.CommonNode;
+import cn.edu.bupt.ipoc.onps.service.LinkManageService;
 import cn.edu.bupt.ipoc.onps.service.NodeManageService;
 import cn.edu.bupt.ipoc.onps.service.ResManagementService;
 import org.springframework.context.annotation.Scope;
@@ -20,6 +21,8 @@ import java.util.List;
 public class NodeManageServiceImpl implements NodeManageService {
     @Resource
     private ResManagementService resManagementService;
+    @Resource
+    private LinkManageService linkManageService;
 
     @Override
     public Node creatNode(double longitude, double latitude, String name, int year, String type) {
@@ -32,7 +35,7 @@ public class NodeManageServiceImpl implements NodeManageService {
     }
 
     @Override
-    public boolean deleteNode(String id) {
+    public boolean deleteNode(String id) throws Exception {
         //需要遍历改节点有关的链路的情况
         //先删除链路，后删除节点
         List<BasicLink> sdhLink = resManagementService.getSdhLinks();
@@ -45,11 +48,13 @@ public class NodeManageServiceImpl implements NodeManageService {
         while(iterator.hasNext()){
             BasicLink link = iterator.next();
             if(link.getFromNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteSDHLink(link.getId());
                 continue;
             }
             if(link.getToNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteSDHLink(link.getId());
                 continue;
             }
         }
@@ -58,11 +63,13 @@ public class NodeManageServiceImpl implements NodeManageService {
         while(iterator.hasNext()){
             BasicLink link = iterator.next();
             if(link.getFromNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteOTNLink(link.getId());
                 continue;
             }
             if(link.getToNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteOTNLink(link.getId());
                 continue;
             }
         }
@@ -71,11 +78,13 @@ public class NodeManageServiceImpl implements NodeManageService {
         while(iterator.hasNext()){
             BasicLink link = iterator.next();
             if(link.getFromNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteWDMLink(link.getId());
                 continue;
             }
             if(link.getToNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteWDMLink(link.getId());
                 continue;
             }
         }
@@ -84,11 +93,13 @@ public class NodeManageServiceImpl implements NodeManageService {
         while(iterator.hasNext()){
             BasicLink link = iterator.next();
             if(link.getFromNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteFiberLink(link.getId());
                 continue;
             }
             if(link.getToNode().getId().equals(id)){
-                iterator.remove();
+                //iterator.remove();
+                linkManageService.deleteFiberLink(link.getId());
                 continue;
             }
         }
