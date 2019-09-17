@@ -116,7 +116,7 @@ public class NodeManageServiceImpl implements NodeManageService {
     }
 
     @Override
-    public Node updateNode(String id, double longitude, double latitude, String name, int year, String type) {
+    public Node updateNode(String id, double longitude, double latitude, String name, int year, String type) throws Exception{
         List<CommonNode> commonNode = resManagementService.getCommonNodes();
         Iterator<CommonNode> commonNodeIterator = commonNode.iterator();
         while(commonNodeIterator.hasNext()){
@@ -127,9 +127,10 @@ public class NodeManageServiceImpl implements NodeManageService {
                 node.setName(name);
                 node.setYear(year);
                 node.setType(type);
+                return node;
             }
 
         }
-        return null;
+        throw new NullPointerException("修改节点不存在");
     }
 }

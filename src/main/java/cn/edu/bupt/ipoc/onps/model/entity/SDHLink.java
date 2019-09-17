@@ -17,6 +17,8 @@ public class SDHLink extends BasicLink {
     private	List<Timeslot>	 	        exTimeslotList;     //扩容时隙
 
     public static class Builder extends BasicLink.Builder<Builder>{
+        private Port formPort;//链路首节点端口
+        private Port toPort;//链路尾节点端口
         private boolean 		 	        inRing=false;       //链路是否是构成环
         private	String					    carriedType;	    //承载媒介，光缆还是WDM
         private	boolean			            gran=false;         //标示是否复用,false为没有小粒度业务，true为有小粒度业务
@@ -35,6 +37,12 @@ public class SDHLink extends BasicLink {
          */
         public Builder(String id, String name, CommonNode fromNode, CommonNode toNode) {
             super(id, name, LayerString.SDH, fromNode, toNode);
+            this.formPort = new Port(LayerString.SDH);
+            this.toPort = new Port(LayerString.SDH);
+            formPort.setBelongsNode(fromNode);
+            formPort.setBelongsNode(toNode);
+            fromNode.addPort(formPort);
+            toNode.addPort(toPort);
         }
         /**
          * 节点间创建链路
@@ -46,7 +54,29 @@ public class SDHLink extends BasicLink {
          */
         public Builder(String name, CommonNode fromNode, CommonNode toNode) {
             super(name, LayerString.OTN, fromNode, toNode);
+            this.formPort = new Port(LayerString.SDH);
+            this.toPort = new Port(LayerString.SDH);
+            formPort.setBelongsNode(fromNode);
+            formPort.setBelongsNode(toNode);
+            fromNode.addPort(formPort);
+            toNode.addPort(toPort);
         }
+        /**
+         * 节点间创建sdh链路
+         * 端口已经建立
+         * @param id
+         * @param name
+         * @param fromPort
+         * @param toPort
+         */
+        public Builder(String id, String name, Port fromPort, Port toPort){
+            super(id,name, LayerString.WDM, fromPort.getBelongsNode(), toPort.getBelongsNode());
+            this.formPort = fromPort;
+            this.toPort = toPort;
+            this.fromNode = fromPort.getBelongsNode();
+            this.toNode = toPort.getBelongsNode();
+        }
+
         public Builder carriedType(String carriedType){
             this.carriedType = carriedType;
             return self();
@@ -98,11 +128,15 @@ public class SDHLink extends BasicLink {
 
         @Override
         public BasicLink build() {
-            return null;
+            return new SDHLink(this);
         }
     }
     private SDHLink(Builder builder) {
         super(builder);
+        this.formPort = builder.formPort;//设置端口
+        this.toPort = builder.toPort;
+        formPort.setBelongsLink(this);
+        toPort.setBelongsLink(this);
         this.carriedType = builder.carriedType;
         this.timeslotList = builder.timeslotList;
         this.layerRouteLinkList = builder.layerRouteLinkList;

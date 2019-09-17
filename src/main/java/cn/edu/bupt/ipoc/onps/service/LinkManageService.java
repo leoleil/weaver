@@ -17,7 +17,7 @@ public interface LinkManageService {
      * @return 返回创建的链路
      * @throws Exception 如果节点不存在抛出空指针异常
      */
-    public FiberLink addFiberLink(String name, String fromNodeId, String toNodeId, double length, int size, int year)throws Exception;
+    FiberLink addFiberLink(String name, String fromNodeId, String toNodeId, double length, int size, int year)throws Exception;
 
     /**
      * 更新链路
@@ -28,24 +28,24 @@ public interface LinkManageService {
      * @param year 更改的年份
      * @return 返回创建的链路
      */
-    public FiberLink updateFiberLink(String id, String name, double length, int addSize, int year)throws Exception;
+    FiberLink updateFiberLink(String id, String name, double length, int addSize, int year)throws Exception;
 
     /**
      * 删除链路
      * @param id 用于定位的ID
      * @return 成功返回true,如果此链路本来就不存在则返回false
      */
-    public boolean deleteFiberLink(String id)throws Exception;
+    boolean deleteFiberLink(String id)throws Exception;
 
-    public WDMLink addWDMLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year) throws Exception;
-    public WDMLink updateWDMLink(String id, String name, double length, int addSize, int year)throws Exception;
-    public boolean deleteWDMLink(String id)throws Exception;
+    WDMLink addWDMLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year) throws Exception;
+    WDMLink updateWDMLink(String id, String name, double length, int addSize, int year)throws Exception;
+    boolean deleteWDMLink(String id)throws Exception;
 
-    public OTNLink addOTNLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year, String layer) throws Exception;
-    public OTNLink updateOTNLink(String id, String name, double length, int addSize, int year) throws Exception;
-    public boolean deleteOTNLink(String id)throws Exception;
+    OTNLink addOTNLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year, String layer) throws Exception;
+    OTNLink updateOTNLink(String id, String name, double length, int addSize, int year) throws Exception;
+    boolean deleteOTNLink(String id)throws Exception;
 
-    public SDHLink addSDHLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year, String layer) throws Exception;
-    public SDHLink updateSDHLink(String id, String name, double length, int addSize, int year) throws Exception;
-    public boolean deleteSDHLink(String id)throws Exception;
+    SDHLink addSDHLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year, String layer) throws Exception;
+    SDHLink updateSDHLink(String id, String name, double length, int addSize, int year) throws Exception;
+    boolean deleteSDHLink(String id)throws Exception;
 }

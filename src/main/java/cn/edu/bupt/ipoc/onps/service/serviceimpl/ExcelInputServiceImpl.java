@@ -227,14 +227,12 @@ public class ExcelInputServiceImpl implements ExcelInputService {
                     .year(year)
                     .build();
             sdhLinkList.add(link);
-            resManagementService.setCommonNodes(commonNodeList);
-            resManagementService.setFiberLinks(fiberLinkList);
-            resManagementService.setWdmLinks(wdmLinkList);
-            resManagementService.setOtnLinks(otnLinkList);
-            resManagementService.setSdhLinks(sdhLinkList);
-
         }
-
+        resManagementService.setCommonNodes(commonNodeList);
+        resManagementService.setFiberLinks(fiberLinkList);
+        resManagementService.setWdmLinks(wdmLinkList);
+        resManagementService.setOtnLinks(otnLinkList);
+        resManagementService.setSdhLinks(sdhLinkList);
 
 
 

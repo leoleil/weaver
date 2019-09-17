@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
+@RequestMapping(value = "/user")
 public class UserLoginController {
 
     @RequestMapping(value = "/login")

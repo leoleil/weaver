@@ -45,11 +45,33 @@ $(function(){
 		});
 	});
 });
+$(function () {
+    $("#topo").click(function () {
+        $.ajax({
+            url:"/onps/topo/list.do",
+            type:"post",
+            //dataType:"json",
+            //data: new FormData($("#upload_form")[0]),
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    });
+});
 
 </script>
 </head>  
 <body>
-<div class="upload_div">  
+<button id="topo">获取拓扑</button>
+<div class="upload_div">
     <span class="close"></span><!-- action="/springMVC_spring_mybatis/excelUpload/importExcel.do" method="post" enctype="multipart/form-data"  -->
     <form id = "upload_form" class="upload_form" name="readExcel" onsubmit="return formCheck(this);">     
         <a href="javascript:;" class="selectBtn btn btn--stripe">

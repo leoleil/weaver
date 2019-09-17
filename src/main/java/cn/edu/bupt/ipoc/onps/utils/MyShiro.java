@@ -2,7 +2,6 @@ package cn.edu.bupt.ipoc.onps.utils;
 
 import cn.edu.bupt.ipoc.onps.dao.UserDAO;
 import cn.edu.bupt.ipoc.onps.dao.UserPOMapper;
-import cn.edu.bupt.ipoc.onps.model.po.UserHasRolePOExample;
 import cn.edu.bupt.ipoc.onps.model.po.UserPO;
 import cn.edu.bupt.ipoc.onps.model.po.UserPOExample;
 import org.apache.shiro.authc.*;
@@ -40,8 +39,6 @@ public class MyShiro extends AuthorizingRealm {
         if(user == null){
             return null;
         }
-        UserHasRolePOExample userHasRolePOExample = new UserHasRolePOExample();
-        userHasRolePOExample.createCriteria().andUserIdEqualTo(user.getId());
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         List<String> roleList = userDAO.selectRoleByUserId(user.getId());
         List<String> permissionList = userDAO.selectPermissionByUserId(user.getId());

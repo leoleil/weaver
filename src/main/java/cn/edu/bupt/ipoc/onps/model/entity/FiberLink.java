@@ -129,6 +129,23 @@ public class FiberLink extends BasicLink {
         return fibers;
     }
 
+    public int getFualtTime() {
+        return fualtTime;
+    }
+
+    public int getCompletedYear() {
+        return completedYear;
+    }
+
+    public double getAveAttenua() {
+        return aveAttenua;
+    }
+
+    public String getPerfunctoryWay() {
+        return perfunctoryWay;
+    }
+
+
     /**
      * 上层链路占据Fiber资源,有空闲资源就占据
      * @param link

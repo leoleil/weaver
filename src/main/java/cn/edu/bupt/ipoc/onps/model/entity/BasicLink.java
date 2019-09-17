@@ -234,14 +234,6 @@ public abstract class BasicLink implements Link {
         return free;
     }
 
-    public Port getFormPort() {
-        return formPort;
-    }
-
-    public Port getToPort() {
-        return toPort;
-    }
-
     public void setSequence(int sequence) {
         this.sequence = sequence;
     }
@@ -261,6 +253,8 @@ public abstract class BasicLink implements Link {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 
     public boolean addTraffic(Traffic traffic){
         return carriedTraffic.add(traffic);

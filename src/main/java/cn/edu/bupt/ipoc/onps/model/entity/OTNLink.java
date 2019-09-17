@@ -13,6 +13,8 @@ public class OTNLink extends BasicLink{
     private	List<OTU> OTUList;//包含的ONU链
     private	List<OTU> exOTUList;//扩容ONU链路
     public static class Builder extends BasicLink.Builder<Builder>{
+        protected Port formPort;//链路首节点端口
+        protected Port toPort;//链路尾节点端口
         private	String carriedType;//承载媒介，光缆还是WDM
         private List<BasicLink> layerRouteLinkList;//层间路由
         private	List<OTU> OTUList;//包含的ONU链
@@ -28,6 +30,12 @@ public class OTNLink extends BasicLink{
          */
         public Builder(String id, String name, CommonNode fromNode, CommonNode toNode) {
             super(id, name, LayerString.OTN, fromNode, toNode);
+            this.formPort = new Port(LayerString.OTN);
+            this.toPort = new Port(LayerString.OTN);
+            formPort.setBelongsNode(fromNode);
+            formPort.setBelongsNode(toNode);
+            fromNode.addPort(formPort);
+            toNode.addPort(toPort);
         }
 
         /**
@@ -40,6 +48,27 @@ public class OTNLink extends BasicLink{
          */
         public Builder(String name, CommonNode fromNode, CommonNode toNode) {
             super(name, LayerString.OTN, fromNode, toNode);
+            this.formPort = new Port(LayerString.OTN);
+            this.toPort = new Port(LayerString.OTN);
+            formPort.setBelongsNode(fromNode);
+            formPort.setBelongsNode(toNode);
+            fromNode.addPort(formPort);
+            toNode.addPort(toPort);
+        }
+        /**
+         * 节点间创建otn链路
+         * 端口已经建立
+         * @param id
+         * @param name
+         * @param fromPort
+         * @param toPort
+         */
+        public Builder(String id, String name, Port fromPort, Port toPort){
+            super(id,name, LayerString.WDM, fromPort.getBelongsNode(), toPort.getBelongsNode());
+            this.formPort = fromPort;
+            this.toPort = toPort;
+            this.fromNode = fromPort.getBelongsNode();
+            this.toNode = toPort.getBelongsNode();
         }
 
         public Builder carriedType(String carriedType){
@@ -98,9 +127,13 @@ public class OTNLink extends BasicLink{
     }
     private OTNLink(Builder builder) {
         super(builder);
-        //占据层间路由
+        this.formPort = builder.formPort;//设置端口
+        this.toPort = builder.toPort;
+        formPort.setBelongsLink(this);
+        toPort.setBelongsLink(this);
         this.carriedType = builder.carriedType;
         this.OTUList = builder.OTUList;
+        //占据层间路由
         this.layerRouteLinkList = builder.layerRouteLinkList;
         if(carriedType.equals(LayerString.FIBER) && layerRouteLinkList != null && builder.linkResIdList == null){
             for(BasicLink link:layerRouteLinkList){
@@ -133,6 +166,7 @@ public class OTNLink extends BasicLink{
         else{
             layerRouteLinkList = new ArrayList<>();
         }
+        //
     }
 
     public boolean occupyOTU(BasicLink link){

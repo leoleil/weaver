@@ -129,6 +129,62 @@ public class CommonNode implements Node {
         this.status = status;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getRecoverLongitude() {
+        return recoverLongitude;
+    }
+
+    public void setRecoverLongitude(double recoverLongitude) {
+        this.recoverLongitude = recoverLongitude;
+    }
+
+    public double getRecoverLatitude() {
+        return recoverLatitude;
+    }
+
+    public void setRecoverLatitude(double recoverLatitude) {
+        this.recoverLatitude = recoverLatitude;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
     @Override
     public boolean equals(Object o){
         if(o == this)
