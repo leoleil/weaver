@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.bupt.ipoc.onps.dao.ProjectDAO">
+    <resultMap id="BaseResultMap" type="cn.edu.bupt.ipoc.onps.model.po.ProjectPO">
+        <constructor>
+            <idArg column="project_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="year" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="information" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        project_id,name,year,information,user_id,time
+    </sql>
+    <insert id="insertProject" parameterType="cn.edu.bupt.ipoc.onps.model.po.ProjectPO">
+        INSERT INTO project (
+        project_id,
+        name,
+        <if test="year != null">
+            year,
+        </if>
+        <if test="information != null">
+            information,
+        </if>
+        time,
+        user_id
+        )
+        VALUES (
+        #{projectId},
+        #{name},
+        <if test="year != null">
+            #{year},
+        </if>
+        <if test="information != null">
+            #{information},
+        </if>
+        #{time},
+        #{userId}
+        )
+    </insert>
+    <select id="selectProjectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM project
+        WHERE project_id = #{id}
+    </select>
+    <select id="selectProjectListByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM project
+        WHERE user_id = #{id}
+    </select>
+    <delete id="deleteProjectById" parameterType="java.lang.String">
+        delete from project
+        where project_id = #{id}
+    </delete>
+</mapper>
