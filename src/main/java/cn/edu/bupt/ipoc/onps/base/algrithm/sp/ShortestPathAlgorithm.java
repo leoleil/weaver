@@ -1,4 +1,4 @@
-package cn.edu.bupt.ipoc.onps.base.algrithm;
+package cn.edu.bupt.ipoc.onps.base.algrithm.sp;
 
 import java.util.List;
 

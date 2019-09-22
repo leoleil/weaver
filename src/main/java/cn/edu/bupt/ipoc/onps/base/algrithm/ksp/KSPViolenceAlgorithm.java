@@ -1,7 +1,5 @@
 package cn.edu.bupt.ipoc.onps.base.algrithm.ksp;
 
-import cn.edu.bupt.ipoc.onps.base.algrithm.KShortestPathAlgorithm;
-
 import java.util.List;
 
 /**

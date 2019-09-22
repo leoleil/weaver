@@ -1,6 +1,7 @@
 package cn.edu.bupt.ipoc.onps.model.entity;
 
 import java.util.List;
+import java.util.Set;
 
 public class Traffic {
     private int	    				    id;			                          //业务ID
@@ -23,10 +24,10 @@ public class Traffic {
     private Route						protectRoute = new Route();           //保护路由
     private Route						resumeRoute = new Route();            //恢复路由
     private Route						resumeRouteP = new Route();           //保护路由的恢复路由
-    private CommonNode		            workMustNode ;         	              //业务工作路由的必经节点
-    private CommonNode		            workNeverNode ;                       //业务工作路由排斥节点
-    private CommonNode		            protectMustNode ;                     //业务保护路由的必经节点
-    private CommonNode		            protectNeverNode ;                    //业务保护路由排斥节点
+    private Set<CommonNode>             workMustNode ;         	              //业务工作路由的必经节点
+    private Set<CommonNode>		        workNeverNode ;                       //业务工作路由排斥节点
+    private Set<CommonNode>		        protectMustNode ;                     //业务保护路由的必经节点
+    private Set<CommonNode>		        protectNeverNode ;                    //业务保护路由排斥节点
     private BasicLink				    workMustLink ;                        //业务工作路由的必经链路
     private BasicLink				    workNeverLink ;                       //业务工作路由的排斥链路
     private BasicLink			        protectMustLink;                      //业务保护路由的必经链路
