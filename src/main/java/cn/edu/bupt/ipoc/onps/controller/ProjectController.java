@@ -1,6 +1,7 @@
 package cn.edu.bupt.ipoc.onps.controller;
 
 public class ProjectController {
+
     //TODO
     public Object createProject(String name, int year, String text){
         return null;
@@ -15,6 +16,10 @@ public class ProjectController {
     }
     //TODO
     public Object openProject(String id){
+        return null;
+    }
+    //TODO
+    public Object getProjectList(){
         return null;
     }
 }

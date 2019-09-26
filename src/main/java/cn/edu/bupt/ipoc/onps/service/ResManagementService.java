@@ -28,4 +28,8 @@ public interface ResManagementService {
     List<Traffic> getTraffices();
 
     void setTraffices(List<Traffic> traffices);
+
+    int openResByProjecId(String projectId,String userId);
+
+    int saveResByProjectId(String projectId,String userId);
 }

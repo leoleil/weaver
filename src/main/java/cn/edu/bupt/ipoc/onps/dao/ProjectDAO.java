@@ -9,4 +9,5 @@ public interface ProjectDAO {
     ProjectPO selectProjectById(String id);
     List<ProjectPO> selectProjectListByUserId(String id);
     int deleteProjectById(String id);
+    int updateProject(ProjectPO projectPO);
 }

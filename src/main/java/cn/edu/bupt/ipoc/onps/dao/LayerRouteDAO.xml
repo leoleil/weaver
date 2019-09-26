@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.bupt.ipoc.onps.dao.LayerRouteDAO">
+    <insert id="insertLayerRoute" parameterType="java.util.List">
+        INSERT INTO layer_route
+        (layer_route_id,link_id,carry_link_id,route_sequence,carry_layer,carry_cell_id)
+        VALUES 
+        <foreach collection="list" item="item" index= "index" separator =",">
+            (
+              #{item.layerRouteId},
+              #{item.linkId},
+              #{item.carryLinkId},
+              #{item.routeSequence},
+              #{item.carryLayer},
+              #{item.carryCellId}
+            )
+        </foreach>
+    </insert>
+</mapper>

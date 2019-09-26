@@ -56,4 +56,20 @@
         delete from project
         where project_id = #{id}
     </delete>
+    <update id="updateProject" parameterType="cn.edu.bupt.ipoc.onps.model.po.ProjectPO">
+        UPDATE project
+        SET
+        <if test="name !=">
+            name = #{name},
+        </if>
+        <if test="year !=">
+            year = #{year},
+        </if>
+        <if test="information !=">
+            information = #{information},
+        </if>
+        projectId = #{projectId}
+        where
+        projectId = #{projectId}
+    </update>
 </mapper>

@@ -44,7 +44,7 @@ public class TopoResController {
             excelInputService.inputTopogy(file);
             return getResList();
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return BaseResult.createFailResult(e.getMessage());
         }
     }
@@ -58,6 +58,7 @@ public class TopoResController {
         map.put("otnLink",resManagementService.getOtnLinks());
         map.put("sdhLink",resManagementService.getSdhLinks());
         BaseResult result = BaseResult.createSuccessResult(map);
+        resManagementService.saveResByProjectId("1","1");
         return result;
     }
     @RequestMapping(value = "/node/create",produces = { "application/json;charset=UTF-8" })

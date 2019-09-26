@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.bupt.ipoc.onps.dao.FiberLinkPOMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPO" >
+    <constructor >
+      <idArg column="fiber_link_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sequence_number" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="fualt_times" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="completed_year" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="perfunctory_way" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="maintain_unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="area" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    fiber_link_id, sequence_number, fualt_times, completed_year, perfunctory_way, maintain_unit, 
+    area
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from fiber_link
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fiber_link
+    where fiber_link_id = #{fiberLinkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fiber_link
+    where fiber_link_id = #{fiberLinkId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPOExample" >
+    delete from fiber_link
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPO" >
+    insert into fiber_link (fiber_link_id, sequence_number, fualt_times, 
+      completed_year, perfunctory_way, maintain_unit, 
+      area)
+    values (#{fiberLinkId,jdbcType=VARCHAR}, #{sequenceNumber,jdbcType=INTEGER}, #{fualtTimes,jdbcType=INTEGER}, 
+      #{completedYear,jdbcType=INTEGER}, #{perfunctoryWay,jdbcType=VARCHAR}, #{maintainUnit,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPO" >
+    insert into fiber_link
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fiberLinkId != null" >
+        fiber_link_id,
+      </if>
+      <if test="sequenceNumber != null" >
+        sequence_number,
+      </if>
+      <if test="fualtTimes != null" >
+        fualt_times,
+      </if>
+      <if test="completedYear != null" >
+        completed_year,
+      </if>
+      <if test="perfunctoryWay != null" >
+        perfunctory_way,
+      </if>
+      <if test="maintainUnit != null" >
+        maintain_unit,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fiberLinkId != null" >
+        #{fiberLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="sequenceNumber != null" >
+        #{sequenceNumber,jdbcType=INTEGER},
+      </if>
+      <if test="fualtTimes != null" >
+        #{fualtTimes,jdbcType=INTEGER},
+      </if>
+      <if test="completedYear != null" >
+        #{completedYear,jdbcType=INTEGER},
+      </if>
+      <if test="perfunctoryWay != null" >
+        #{perfunctoryWay,jdbcType=VARCHAR},
+      </if>
+      <if test="maintainUnit != null" >
+        #{maintainUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPOExample" resultType="java.lang.Integer" >
+    select count(*) from fiber_link
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fiber_link
+    <set >
+      <if test="record.fiberLinkId != null" >
+        fiber_link_id = #{record.fiberLinkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sequenceNumber != null" >
+        sequence_number = #{record.sequenceNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.fualtTimes != null" >
+        fualt_times = #{record.fualtTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.completedYear != null" >
+        completed_year = #{record.completedYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.perfunctoryWay != null" >
+        perfunctory_way = #{record.perfunctoryWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maintainUnit != null" >
+        maintain_unit = #{record.maintainUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null" >
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fiber_link
+    set fiber_link_id = #{record.fiberLinkId,jdbcType=VARCHAR},
+      sequence_number = #{record.sequenceNumber,jdbcType=INTEGER},
+      fualt_times = #{record.fualtTimes,jdbcType=INTEGER},
+      completed_year = #{record.completedYear,jdbcType=INTEGER},
+      perfunctory_way = #{record.perfunctoryWay,jdbcType=VARCHAR},
+      maintain_unit = #{record.maintainUnit,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPO" >
+    update fiber_link
+    <set >
+      <if test="sequenceNumber != null" >
+        sequence_number = #{sequenceNumber,jdbcType=INTEGER},
+      </if>
+      <if test="fualtTimes != null" >
+        fualt_times = #{fualtTimes,jdbcType=INTEGER},
+      </if>
+      <if test="completedYear != null" >
+        completed_year = #{completedYear,jdbcType=INTEGER},
+      </if>
+      <if test="perfunctoryWay != null" >
+        perfunctory_way = #{perfunctoryWay,jdbcType=VARCHAR},
+      </if>
+      <if test="maintainUnit != null" >
+        maintain_unit = #{maintainUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fiber_link_id = #{fiberLinkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.bupt.ipoc.onps.model.po.FiberLinkPO" >
+    update fiber_link
+    set sequence_number = #{sequenceNumber,jdbcType=INTEGER},
+      fualt_times = #{fualtTimes,jdbcType=INTEGER},
+      completed_year = #{completedYear,jdbcType=INTEGER},
+      perfunctory_way = #{perfunctoryWay,jdbcType=VARCHAR},
+      maintain_unit = #{maintainUnit,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR}
+    where fiber_link_id = #{fiberLinkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

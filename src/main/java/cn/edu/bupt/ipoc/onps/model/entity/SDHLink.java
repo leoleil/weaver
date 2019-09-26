@@ -215,4 +215,19 @@ public class SDHLink extends BasicLink {
     public List<Timeslot> getTimeslotList() {
         return timeslotList;
     }
+
+    public String takeFromPortId(){
+        return this.formPort.getId();
+    }
+    public String takeToPortId(){
+        return this.toPort.getId();
+    }
+
+    public List<BasicLink> takeLayerRouteLinkList(){
+        return this.layerRouteLinkList;
+    }
+
+    public String getCarriedType() {
+        return carriedType;
+    }
 }

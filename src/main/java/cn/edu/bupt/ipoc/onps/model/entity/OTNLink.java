@@ -227,4 +227,15 @@ public class OTNLink extends BasicLink{
     public List<OTU> getExOTUList() {
         return exOTUList;
     }
+
+    public String takeFromPortId(){
+        return this.formPort.getId();
+    }
+    public String takeToPortId(){
+        return this.toPort.getId();
+    }
+
+    public List<BasicLink> takeLayerRouteLinkList(){
+        return this.layerRouteLinkList;
+    }
 }

@@ -185,6 +185,16 @@ public class CommonNode implements Node {
         return status;
     }
 
+    public List<Port> takeWDMPort(){
+        return portOfWDM;
+    }
+    public List<Port> takeOTNPort(){
+        return portOfOTN;
+    }
+    public List<Port> takeSDHPort(){
+        return portOfSDH;
+    }
+
     @Override
     public boolean equals(Object o){
         if(o == this)

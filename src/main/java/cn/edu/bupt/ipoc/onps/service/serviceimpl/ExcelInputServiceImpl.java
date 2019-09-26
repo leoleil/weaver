@@ -51,7 +51,7 @@ public class ExcelInputServiceImpl implements ExcelInputService {
         List<CommonNode> commonNodeList = new ArrayList<>();
         Sheet sheet = book.getSheet("节点");
         System.out.println(">>>>>>>>>>导入节点<<<<<<<<<<");
-        for(int i = 1; i <= sheet.getLastRowNum();i++){
+        for(int i = 1; sheet.getRow(i)!= null && sheet.getRow(i).getCell(1) !=null;i++){
             Row row = sheet.getRow(i);
             if(row == null)continue;
             String name = row.getCell(1).getStringCellValue();
@@ -69,7 +69,7 @@ public class ExcelInputServiceImpl implements ExcelInputService {
         List<BasicLink> fiberLinkList = new ArrayList<>();
         sheet = book.getSheet("FIBER链路");
         System.out.println(">>>>>>>>>>导入Fiber链路<<<<<<<<<<");
-        for(int i = 1; i<sheet.getLastRowNum();i++){
+        for(int i = 1; sheet.getRow(i)!= null && sheet.getRow(i).getCell(1) !=null ;i++){
             Row row = sheet.getRow(i);
             if(row == null)continue;
             String name = row.getCell(1).getStringCellValue();
@@ -115,7 +115,7 @@ public class ExcelInputServiceImpl implements ExcelInputService {
         List<BasicLink> wdmLinkList = new ArrayList<>();
         sheet = book.getSheet("WDM链路");
         System.out.println(">>>>>>>>>>导入WDM链路<<<<<<<<<<");
-        for(int i = 1; i<sheet.getLastRowNum();i++){
+        for(int i = 1; sheet.getRow(i)!= null && sheet.getRow(i).getCell(1) !=null;i++){
             Row row = sheet.getRow(i);
             if(row == null)continue;
             String name = row.getCell(1).getStringCellValue();
@@ -147,7 +147,7 @@ public class ExcelInputServiceImpl implements ExcelInputService {
         List<BasicLink> otnLinkList = new ArrayList<>();
         sheet = book.getSheet("OTN链路");
         System.out.println(">>>>>>>>>>导入OTN链路<<<<<<<<<<");
-        for(int i = 1; i<sheet.getLastRowNum();i++){
+        for(int i = 1; sheet.getRow(i)!= null && sheet.getRow(i).getCell(1) !=null;i++){
             Row row = sheet.getRow(i);
             if(row == null)continue;
             String name = row.getCell(1).getStringCellValue();
@@ -189,7 +189,7 @@ public class ExcelInputServiceImpl implements ExcelInputService {
         List<BasicLink> sdhLinkList = new ArrayList<>();
         sheet = book.getSheet("SDH链路");
         System.out.println(">>>>>>>>>>导入SDH链路<<<<<<<<<<");
-        for(int i = 1; i<sheet.getLastRowNum();i++){
+        for(int i = 1; sheet.getRow(i)!= null && sheet.getRow(i).getCell(1) !=null;i++){
             Row row = sheet.getRow(i);
             String name = row.getCell(1).getStringCellValue();
             String fromNodeName = row.getCell(2).getStringCellValue();

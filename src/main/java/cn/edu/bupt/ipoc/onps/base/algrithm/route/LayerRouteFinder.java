@@ -51,7 +51,7 @@ public class LayerRouteFinder implements LayerRouteAlgorithm {
         //设置矩阵
         for (BasicLink link:links
              ) {
-            if(link.getFree() > 0 && rate < link.getRate()) {
+            if(link.getFree() > 0 && rate <= link.getRate()) {
                 adjacentMatrix[nodeIntegerMap.get(link.getToNode())][nodeIntegerMap.get(link.getFromNode())] = (int) link.getLength() * 1000;
                 adjacentMatrix[nodeIntegerMap.get(link.getFromNode())][nodeIntegerMap.get(link.getToNode())] = (int) link.getLength() * 1000;
             }

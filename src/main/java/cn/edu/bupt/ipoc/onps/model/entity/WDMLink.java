@@ -193,6 +193,10 @@ public class WDMLink extends BasicLink{
         return wavelengthList;
     }
 
+    public String getFacilityType() {
+        return facilityType;
+    }
+
     public boolean occupyWavelength(BasicLink link){
         if(free > 0){
             for(Wavelength wavelength:wavelengthList){
@@ -267,5 +271,17 @@ public class WDMLink extends BasicLink{
             return true;
         }
     }
+
+    public String takeFromPortId(){
+        return this.formPort.getId();
+    }
+    public String takeToPortId(){
+        return this.toPort.getId();
+    }
+
+    public List<BasicLink> takeLayerRouteLinkList(){
+        return this.layerRouteLinkList;
+    }
+
 
 }

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.bupt.ipoc.onps.dao.NodePOMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.bupt.ipoc.onps.model.po.NodePO" >
+    <constructor >
+      <idArg column="node_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="longitude" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="latitude" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="year" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="node_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="status" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="failure_rate" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="sequrence_number" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="project_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="network_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="level" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="level1" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="level2" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="level3" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    node_id, name, longitude, latitude, year, node_type, status, failure_rate, sequrence_number, 
+    project_id, network_id, level, level1, level2, level3
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.bupt.ipoc.onps.model.po.NodePOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from node
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from node
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from node
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.bupt.ipoc.onps.model.po.NodePOExample" >
+    delete from node
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.bupt.ipoc.onps.model.po.NodePO" >
+    insert into node (node_id, name, longitude, 
+      latitude, year, node_type, 
+      status, failure_rate, sequrence_number, 
+      project_id, network_id, level, 
+      level1, level2, level3
+      )
+    values (#{nodeId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{year,jdbcType=INTEGER}, #{nodeType,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{failureRate,jdbcType=DOUBLE}, #{sequrenceNumber,jdbcType=INTEGER}, 
+      #{projectId,jdbcType=VARCHAR}, #{networkId,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{level1,jdbcType=VARCHAR}, #{level2,jdbcType=VARCHAR}, #{level3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.bupt.ipoc.onps.model.po.NodePO" >
+    insert into node
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nodeId != null" >
+        node_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="nodeType != null" >
+        node_type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="failureRate != null" >
+        failure_rate,
+      </if>
+      <if test="sequrenceNumber != null" >
+        sequrence_number,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="networkId != null" >
+        network_id,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="level1 != null" >
+        level1,
+      </if>
+      <if test="level2 != null" >
+        level2,
+      </if>
+      <if test="level3 != null" >
+        level3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nodeId != null" >
+        #{nodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="nodeType != null" >
+        #{nodeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="failureRate != null" >
+        #{failureRate,jdbcType=DOUBLE},
+      </if>
+      <if test="sequrenceNumber != null" >
+        #{sequrenceNumber,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="networkId != null" >
+        #{networkId,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="level1 != null" >
+        #{level1,jdbcType=VARCHAR},
+      </if>
+      <if test="level2 != null" >
+        #{level2,jdbcType=VARCHAR},
+      </if>
+      <if test="level3 != null" >
+        #{level3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.bupt.ipoc.onps.model.po.NodePOExample" resultType="java.lang.Integer" >
+    select count(*) from node
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update node
+    <set >
+      <if test="record.nodeId != null" >
+        node_id = #{record.nodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.nodeType != null" >
+        node_type = #{record.nodeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.failureRate != null" >
+        failure_rate = #{record.failureRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.sequrenceNumber != null" >
+        sequrence_number = #{record.sequrenceNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.networkId != null" >
+        network_id = #{record.networkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.level1 != null" >
+        level1 = #{record.level1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level2 != null" >
+        level2 = #{record.level2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level3 != null" >
+        level3 = #{record.level3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update node
+    set node_id = #{record.nodeId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=DOUBLE},
+      latitude = #{record.latitude,jdbcType=DOUBLE},
+      year = #{record.year,jdbcType=INTEGER},
+      node_type = #{record.nodeType,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      failure_rate = #{record.failureRate,jdbcType=DOUBLE},
+      sequrence_number = #{record.sequrenceNumber,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      network_id = #{record.networkId,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      level1 = #{record.level1,jdbcType=VARCHAR},
+      level2 = #{record.level2,jdbcType=VARCHAR},
+      level3 = #{record.level3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.bupt.ipoc.onps.model.po.NodePO" >
+    update node
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="nodeType != null" >
+        node_type = #{nodeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="failureRate != null" >
+        failure_rate = #{failureRate,jdbcType=DOUBLE},
+      </if>
+      <if test="sequrenceNumber != null" >
+        sequrence_number = #{sequrenceNumber,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="networkId != null" >
+        network_id = #{networkId,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="level1 != null" >
+        level1 = #{level1,jdbcType=VARCHAR},
+      </if>
+      <if test="level2 != null" >
+        level2 = #{level2,jdbcType=VARCHAR},
+      </if>
+      <if test="level3 != null" >
+        level3 = #{level3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.bupt.ipoc.onps.model.po.NodePO" >
+    update node
+    set name = #{name,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      year = #{year,jdbcType=INTEGER},
+      node_type = #{nodeType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      failure_rate = #{failureRate,jdbcType=DOUBLE},
+      sequrence_number = #{sequrenceNumber,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      network_id = #{networkId,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      level1 = #{level1,jdbcType=VARCHAR},
+      level2 = #{level2,jdbcType=VARCHAR},
+      level3 = #{level3,jdbcType=VARCHAR}
+    where node_id = #{nodeId,jdbcType=VARCHAR}
+  </update>
+</mapper>
