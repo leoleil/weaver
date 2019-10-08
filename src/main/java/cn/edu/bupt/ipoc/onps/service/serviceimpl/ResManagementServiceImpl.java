@@ -99,6 +99,27 @@ public class ResManagementServiceImpl implements ResManagementService {
 
     @Override
     public int openResByProjecId(String projectId,String userId) {
+        //打开节点
+        NodePOExample nodePOExample = new NodePOExample();
+        nodePOExample.createCriteria().andProjectIdEqualTo(projectId);
+        List<NodePO> nodePOList = nodePOMapper.selectByExample(nodePOExample);
+        List<CommonNode> commonNodeList = new ArrayList<>();
+        for(NodePO nodePO:nodePOList){
+            CommonNode commonNode = new CommonNode.Builder(nodePO.getNodeId(),nodePO.getName(),nodePO.getLongitude(),nodePO.getLatitude())
+                    .level(nodePO.getLevel())
+                    .status(nodePO.getStatus())
+                    .type(nodePO.getNodeType())
+                    .year(nodePO.getYear())
+                    .build();
+            commonNodeList.add(commonNode);
+        }
+        this.commonNodes = commonNodeList;
+        //打开Fiberlink
+        List<BasicLink> fiberLinkList = new ArrayList<>();
+        LinkPOExample linkPOExample = new LinkPOExample();
+        linkPOExample.createCriteria().andProjectIdEqualTo(projectId).andLayerEqualTo(LayerString.FIBER);
+        List<LinkPO> linkPOListOfFiber = linkPOMapper.selectByExample(linkPOExample);
+        List<String> fiberLinkId = new ArrayList<>();
 
         return 0;
     }
