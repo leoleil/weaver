@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 基础的链路抽象类
+ * 使用Builder设计模式
+ */
 public abstract class BasicLink implements Link {
     //变量
     protected String id;//链路ID，唯一
@@ -260,6 +264,13 @@ public abstract class BasicLink implements Link {
         return carriedTraffic.add(traffic);
     }
 
+    /**
+     * 重载equals方法
+     * 地址一样的对象一定是相等的
+     * 如果两个链路的Id是一样的也是相等的
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o){
         if(o == this)
@@ -269,6 +280,12 @@ public abstract class BasicLink implements Link {
         BasicLink link = (BasicLink) o;
         return link.id.equals(this.id);
     }
+
+    /**
+     * 重载hanscode方法
+     * hashcode使用Id生成
+     * @return
+     */
     @Override
     public int hashCode(){
         return this.id.hashCode();

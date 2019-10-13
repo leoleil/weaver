@@ -37,17 +37,16 @@ public class WDMLink extends BasicLink{
     public static class Builder extends BasicLink.Builder<Builder>{
         protected Port formPort;//链路首节点端口
         protected Port toPort;//链路尾节点端口
-        private List<Wavelength> wavelengthList;	  //该段落所对应的详细波道使用状态
-        private List<BasicLink>	 layerRouteLinkList;       //用来承载该WDM段落的具体的光纤链路链表:层间路由
-        private List<String> fiberIdList;             //用来承载该WDM段落的具体光纤链表
+        private List<Wavelength> wavelengthList = new ArrayList<>();	  //该段落所对应的详细波道使用状态
+        private List<BasicLink>	 layerRouteLinkList = new ArrayList<>();  //用来承载该WDM段落的具体的光纤链路链表:层间路由
+        private List<String> fiberIdList = new ArrayList<>();             //用来承载该WDM段落的具体光纤链表
         /**
          * 节点间创建wdm链路
          * 端口自动生成
-         *
-         * @param id
-         * @param name
-         * @param fromNode
-         * @param toNode
+         * @param id wdn的id
+         * @param name 链路名称
+         * @param fromNode 起点
+         * @param toNode 终点
          */
         public Builder(String id, String name, CommonNode fromNode, CommonNode toNode) {
             super(id, name, LayerString.WDM, fromNode, toNode);
@@ -64,7 +63,6 @@ public class WDMLink extends BasicLink{
          * 节点间创建wdm链路
          * 端口自动生成
          * id自动生成
-         *
          * @param name
          * @param fromNode
          * @param toNode
@@ -81,23 +79,26 @@ public class WDMLink extends BasicLink{
         }
 
         /**
-         * 节点间创建wdm链路
-         * 端口已经建立
-         * @param id
-         * @param name
-         * @param fromPort
-         * @param toPort
+         * 节点间创建wdm链路 推荐再从DAO载入时使用
+         *  端口已经建立，其中端口的节点已经确定
+         * @param id  节点ID
+         * @param name 节点名
+         * @param fromPort 起点端口
+         * @param toPort 终点端口
+         * @param fromNode 起点节点
+         * @param toNode 终点节点
          */
-        public Builder(String id, String name, Port fromPort, Port toPort){
+        public Builder(String id, String name, Port fromPort, Port toPort , CommonNode fromNode, CommonNode toNode){
             super(id,name, LayerString.WDM, fromPort.getBelongsNode(), toPort.getBelongsNode());
             this.formPort = fromPort;
             this.toPort = toPort;
-            this.fromNode = fromPort.getBelongsNode();
-            this.toNode = toPort.getBelongsNode();
+            this.fromNode = fromNode;
+            this.toNode = toNode;
         }
 
         /**
          * 设置层间路由，占据层间资源
+         * 如果与fiberIdList对应使用需要注意与fiber的ID对应
          * @param links
          * @return
          */
@@ -106,6 +107,11 @@ public class WDMLink extends BasicLink{
             return self();
         }
 
+        /**
+         * 设置层间路由占据的光纤的id，与层间路由对应使用
+         * @param fiberIdList
+         * @return
+         */
         public Builder fiberIdList(List<String> fiberIdList){
             this.fiberIdList = fiberIdList;
             return self();
@@ -122,7 +128,6 @@ public class WDMLink extends BasicLink{
                 size = wavelengths.size();
                 this.free = size;
             }
-            else wavelengthList = new ArrayList<>();
             return self();
         }
 
@@ -133,8 +138,6 @@ public class WDMLink extends BasicLink{
          */
         @Override
         public Builder size(int size){
-            if (wavelengthList == null)
-                wavelengthList = new ArrayList<>();
             for(int i=0 ; i < size ; i++){
                 Wavelength wavelength = new Wavelength();
                 wavelengthList.add(wavelength);
@@ -165,11 +168,13 @@ public class WDMLink extends BasicLink{
         this.formPort = builder.formPort;//设置端口
         this.toPort = builder.toPort;
         formPort.setBelongsLink(this);
+        formPort.setBelongsNode(builder.fromNode);
         toPort.setBelongsLink(this);
+        toPort.setBelongsNode(builder.toNode);
         this.wavelengthList = builder.wavelengthList;
         //占据层间路由资源
         //没有指定层间路由由哪一个fiber承载的情况
-        if(builder.layerRouteLinkList != null && builder.fiberIdList == null) {
+        if(!builder.layerRouteLinkList.isEmpty() && builder.fiberIdList == null) {
             for(BasicLink link : builder.layerRouteLinkList){
                 if(link instanceof FiberLink){
                     ((FiberLink) link).occupyFiber(this);
@@ -177,7 +182,7 @@ public class WDMLink extends BasicLink{
             }
             this.layerRouteLinkList = builder.layerRouteLinkList;
         }//指定层间路由的fiber承载情况
-        else if(builder.layerRouteLinkList != null && builder.fiberIdList != null){
+        else if(!builder.layerRouteLinkList.isEmpty() && builder.fiberIdList != null){
             for(int i=0; i< builder.layerRouteLinkList.size();i++){
                 if(builder.layerRouteLinkList.get(i) instanceof FiberLink){
                     FiberLink link = (FiberLink)builder.layerRouteLinkList.get(i);
@@ -185,7 +190,6 @@ public class WDMLink extends BasicLink{
                 }
             }
         }
-        else layerRouteLinkList = new ArrayList<>();
 
     }
 
