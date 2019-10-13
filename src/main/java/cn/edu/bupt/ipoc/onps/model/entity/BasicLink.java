@@ -20,7 +20,7 @@ public abstract class BasicLink implements Link {
     protected CommonNode fromNode;//链路起始节点
     protected CommonNode toNode;//链路到达节点
     protected double length;//链路长度
-    protected double rate = 160.0;//链路速率
+    protected double rate = 160.0;//链路速率 单位为G
     protected int year;//年份
     protected int caption;//链路可容纳业务量
     protected int carried;//链路已承载业务量
@@ -32,7 +32,7 @@ public abstract class BasicLink implements Link {
     protected double error;//链路故障率，计算电路可靠性使用
     protected String domain;//链路域链路属性：1为域间链路，2为域内网关之间链路
     protected double weight;//链路权重
-    protected int link;//链路复用度 （用于BSP算法）
+    //protected int link;//链路复用度 （用于BSP算法）
     protected List<LinkRGroup> relate = new ArrayList<>(); //链路所在的共享风险链路组
     protected List<Traffic> carriedTraffic = new ArrayList<>();//承载业务
     protected String type;//链路类型
@@ -212,10 +212,6 @@ public abstract class BasicLink implements Link {
 
     public double getWeight() {
         return weight;
-    }
-
-    public int getLink() {
-        return link;
     }
 
     public List<LinkRGroup> getRelate() {

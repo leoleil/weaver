@@ -11,7 +11,7 @@ public class Traffic {
     private CommonNode					fromNode;	                          //首节点
     private CommonNode					toNode;		                          //末节点
     private double						rate;	                           	  //业务速率
-    private String				        trafficRate;		                  //业务速率，枚举型
+    private String				        trafficRate;		                  //业务速率
     private String				        status;		                          //业务状态
     private TrafficGroup			    group=null;		                      //所属业务组
     private String 				        level;		                          //业务保护等级
