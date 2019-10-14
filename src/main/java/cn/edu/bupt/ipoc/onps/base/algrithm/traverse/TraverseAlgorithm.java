@@ -3,6 +3,7 @@ package cn.edu.bupt.ipoc.onps.base.algrithm.traverse;
 import java.util.List;
 
 public abstract class TraverseAlgorithm {
+    //邻接矩阵
     public static final class Adjacency{
         protected int index;
         protected int weigth = 0;

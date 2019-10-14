@@ -9,7 +9,7 @@ import static cn.edu.bupt.ipoc.onps.utils.LayerString.FIBER;
 
 public interface LayerRouteAlgorithm {
     /**
-     * 层间路由算法
+     * 层间路由算法 层间路由最短路算法
      * @param links 链路
      * @param nodes 节点
      * @param layer 承载层级
@@ -18,4 +18,5 @@ public interface LayerRouteAlgorithm {
      * @throws Exception
      */
     List<BasicLink> find (List<BasicLink> links, List<CommonNode> nodes, CommonNode source, CommonNode destination, String layer, double rate) ;
+
 }

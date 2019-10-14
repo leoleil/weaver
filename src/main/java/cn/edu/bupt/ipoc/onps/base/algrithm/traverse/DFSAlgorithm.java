@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * 深度优先遍历
+ */
 public class DFSAlgorithm extends TraverseAlgorithm {
     private List<List<Integer>> routeList = new ArrayList<>();
     private boolean[] mack;
