@@ -2,6 +2,7 @@ package cn.edu.bupt.ipoc.onps.model.entity;
 
 import cn.edu.bupt.ipoc.onps.utils.LayerString;
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
+import cn.edu.bupt.ipoc.onps.utils.TypeString;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -178,13 +179,13 @@ public class FiberLink extends BasicLink {
      * 上层链路占据Fiber资源,根据Fiber的ID来指定占据
      * 次方法推荐使用于DAO载入时占据Fiber
      * @param link 上层的链路
-     * @param fibeID 要占据的fiber的ID
+     * @param fiberID 要占据的fiber的ID
      * @return 如果成功占据返回true ,如果指定的fiber已经被占据返回false ,占据失败返回false
      */
-    public boolean occupyFiber(BasicLink link, String fibeID){
+    public boolean occupyFiber(BasicLink link, String fiberID){
         if(this.free > 0){
             for(Fiber fiber:fibers){
-                if(fiber.getStatus().equals(LinkStatusString.FREE) && fiber.getId().equals(fibeID)){
+                if(fiber.getStatus().equals(LinkStatusString.FREE) && fiber.getId().equals(fiberID)){
                     fiber.addCarryLink(link);
                     this.free --;
                     return true;
@@ -196,7 +197,7 @@ public class FiberLink extends BasicLink {
 
     /**
      * 添加光纤，添加正数就是增加，负数就是减少
-     * addSize为负数时，会将为空闲的光纤去除，如果要减少的大小大于空闲光纤数量则不再减少
+     * addSize为负数时，会将为空闲的新建光纤去除，如果要减少的大小大于空闲光纤数量则不再减少
      * @param addSize
      * @return
      * @return
@@ -206,17 +207,22 @@ public class FiberLink extends BasicLink {
             Iterator<Fiber> fiberIterator = fibers.iterator();
             while (fiberIterator.hasNext() && addSize<0){
                 Fiber fiber = fiberIterator.next();
-                if(fiber.getStatus().equals(LinkStatusString.FREE)){
+                if(fiber.getStatus().equals(LinkStatusString.FREE) && fiber.getType().equals(TypeString.NEW)){
                     fiberIterator.remove();
                     addSize++;
+                    size --;
+                    free --;
                 }
             }
             return true;
         }else if (addSize > 0){
             while (addSize>0){
                 Fiber fiber = new Fiber();
+                fiber.andType(TypeString.NEW).andYear(this.year);
                 fibers.add(fiber);
                 addSize--;
+                size ++;
+                free ++;
             }
             return true;
         }else{

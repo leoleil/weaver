@@ -3,6 +3,7 @@ package cn.edu.bupt.ipoc.onps.model.entity;
 import cn.edu.bupt.ipoc.onps.base.exception.LayerOccupyException;
 import cn.edu.bupt.ipoc.onps.utils.LayerString;
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
+import cn.edu.bupt.ipoc.onps.utils.TypeString;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -226,7 +227,7 @@ public class WDMLink extends BasicLink{
         return false;
     }
 
-    public boolean addTrafficeWork(Traffic traffic){
+    public boolean addTrafficWork(Traffic traffic){
         if(free > 0){
             for(Wavelength wavelength:wavelengthList){
                 if(wavelength.getStatus().equals(LinkStatusString.FREE)){
@@ -239,6 +240,32 @@ public class WDMLink extends BasicLink{
         }
         return false;
     }
+
+    /**
+     * 在wdm链路上添加业务,无论波道状态强行占用，适用于从数据库恢复数据
+     * @param traffic 业务对象
+     * @param wavelengthId 指定业务要占据的波道
+     * @return 有资源并占据成功返回true 资源不足或者没有匹配id的波道返回false
+     */
+    public boolean addTrafficWork(Traffic traffic, String wavelengthId){
+        if(free > 0){
+            for(Wavelength wavelength:wavelengthList){
+                if(wavelength.getId().equals(wavelengthId)){
+                    wavelength.addTrafficWorkProtect(traffic);
+                    this.free --;
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    /**
+     * 在wdm链路上占据
+     * @param traffic 业务对象 波道自动占据
+     * @return 有资源并占据成功返回true 资源不足返回false
+     */
     public boolean addTrafficWorkProtect(Traffic traffic){
         if(free > 0){
             for(Wavelength wavelength:wavelengthList){
@@ -252,23 +279,28 @@ public class WDMLink extends BasicLink{
         }
         return false;
     }
-
+    //新建波道
     public boolean addSize(int addSize){
         if(addSize < 0){
             Iterator<Wavelength>wavelengthIterator = wavelengthList.iterator();
             while (wavelengthIterator.hasNext() && addSize<0){
                 Wavelength wavelength = wavelengthIterator.next();
-                if(wavelength.getStatus().equals(LinkStatusString.FREE)){
+                if(wavelength.getStatus().equals(LinkStatusString.FREE) && wavelength.getType().equals(TypeString.NEW)){
                     wavelengthIterator.remove();
                     addSize++;
+                    size --;
+                    free --;
                 }
             }
             return true;
         }else if (addSize > 0){
             while (addSize>0){
                 Wavelength wavelength = new Wavelength();
+                wavelength.andStatus(TypeString.NEW).andYear(this.year);
                 wavelengthList.add(wavelength);
                 addSize--;
+                size ++;
+                free ++;
             }
             return true;
         }else{

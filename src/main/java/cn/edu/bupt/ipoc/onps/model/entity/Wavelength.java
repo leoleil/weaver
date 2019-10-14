@@ -1,6 +1,7 @@
 package cn.edu.bupt.ipoc.onps.model.entity;
 
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
+import cn.edu.bupt.ipoc.onps.utils.TypeString;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,7 +9,7 @@ import java.util.UUID;
 public class Wavelength {
     private	String id;//波道编号
     private	String status =  LinkStatusString.FREE;//波道使用状态 空闲,工作,保护,恢复
-    private	String type;//波道类型：原有，扩容，新建
+    private	String type = TypeString.OLD;//波道类型：原有，扩容，新建
     private	int	year;//该波道规划年份
     private int gran;//复用等级
     private Traffic traffic;//承载业务
@@ -19,6 +20,18 @@ public class Wavelength {
     }
     public Wavelength(){
         this.id = UUID.randomUUID().toString().replace("-","");
+    }
+    public Wavelength andYear(int year){
+        this.year = year;
+        return this;
+    }
+    public Wavelength andStatus(String status){
+        this.status = status;
+        return this;
+    }
+    public Wavelength andGran(int gran){
+        this.gran = gran;
+        return this;
     }
 
     /**
