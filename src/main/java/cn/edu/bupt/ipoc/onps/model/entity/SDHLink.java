@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class SDHLink extends BasicLink {
+public class SDHLink extends BasicLink implements HaveTraffic {
     private boolean 		 	        inRing=false;       //链路是否是构成环
     private	String					    carriedType;	    //承载媒介，光缆还是WDM
     private	boolean			            gran=false;         //标示是否复用,false为没有小粒度业务，true为有小粒度业务
@@ -15,6 +15,58 @@ public class SDHLink extends BasicLink {
     private	List<BasicLink>	 	        layerRouteLinkList;      //如果承载在光缆上的对应的Fiber层链路链表
     private	List<Timeslot>	 	        timeslotList;       //包含的时隙链
     private	List<Timeslot>	 	        exTimeslotList;     //扩容时隙
+
+    @Override
+    public boolean addTrafficWork(Traffic traffic) {
+        if(free > 0){
+            for(Timeslot timeslot: timeslotList){
+                if(timeslot.getStatus().equals(LinkStatusString.FREE)){
+                    timeslot.addTrafficeWork(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addTrafficWork(Traffic traffic, String chooseResId) {
+        if(free > 0){
+            for(Timeslot timeslot: timeslotList){
+                if(timeslot.getId().equals(chooseResId) && timeslot.getStatus().equals(LinkStatusString.FREE)){
+                    timeslot.addTrafficeWork(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addTrafficWorkProtect(Traffic traffic) {
+        if(free > 0){
+            for(Timeslot timeslot: timeslotList){
+                if(timeslot.getStatus().equals(LinkStatusString.FREE)){
+                    timeslot.addTrafficWorkProtect(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addTrafficWorkProtect(Traffic traffic, String chooseResId) {
+        if(free > 0){
+            for(Timeslot timeslot: timeslotList){
+                if(timeslot.getId().equals(chooseResId) && timeslot.getStatus().equals(LinkStatusString.FREE)){
+                    timeslot.addTrafficWorkProtect(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public static class Builder extends BasicLink.Builder<Builder>{
         private Port formPort;//链路首节点端口

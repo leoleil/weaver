@@ -255,7 +255,6 @@ public abstract class BasicLink implements Link {
     }
 
 
-
     public boolean addTraffic(Traffic traffic){
         return carriedTraffic.add(traffic);
     }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class WDMLink extends BasicLink{
+public class WDMLink extends BasicLink implements HaveTraffic{
     private String		facilityType;        //设备类型 1--2.5G  2--10G
     private int			newNum;				 //扩波数量
     /*波道信息*/
@@ -251,7 +251,7 @@ public class WDMLink extends BasicLink{
         if(free > 0){
             for(Wavelength wavelength:wavelengthList){
                 if(wavelength.getId().equals(wavelengthId)){
-                    wavelength.addTrafficWorkProtect(traffic);
+                    wavelength.addTrafficeWork(traffic);
                     this.free --;
                     return true;
                 }
@@ -279,6 +279,22 @@ public class WDMLink extends BasicLink{
         }
         return false;
     }
+
+    @Override
+    public boolean addTrafficWorkProtect(Traffic traffic, String wavelengthId) {
+        if(free > 0){
+            for(Wavelength wavelength:wavelengthList){
+                if(wavelength.getId().equals(wavelengthId)){
+                    wavelength.addTrafficWorkProtect(traffic);
+                    this.free --;
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
     //新建波道
     public boolean addSize(int addSize){
         if(addSize < 0){

@@ -24,6 +24,10 @@ public class Port {
         this.layer = layer;
     }
 
+    public boolean addTraffic(Traffic traffic){
+        return carriedTraffic.add(traffic);
+    }
+
     public String getLayer() {
         return layer;
     }

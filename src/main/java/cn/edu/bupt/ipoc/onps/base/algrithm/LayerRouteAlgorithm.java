@@ -15,7 +15,6 @@ public interface LayerRouteAlgorithm {
      * @param layer 承载层级
      * @param rate 速率
      * @return 路由线路
-     * @throws Exception
      */
     List<BasicLink> find (List<BasicLink> links, List<CommonNode> nodes, CommonNode source, CommonNode destination, String layer, double rate) ;
 

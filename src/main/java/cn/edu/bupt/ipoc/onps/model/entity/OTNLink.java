@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class OTNLink extends BasicLink{
+public class OTNLink extends BasicLink implements HaveTraffic{
     private	String carriedType;//承载媒介，光缆还是WDM
     private List<BasicLink> layerRouteLinkList;//层间路由
     private	List<OTU> OTUList;//包含的ONU链
     private	List<OTU> exOTUList;//扩容ONU链路
+
     public static class Builder extends BasicLink.Builder<Builder>{
         protected Port formPort;//链路首节点端口
         protected Port toPort;//链路尾节点端口
@@ -214,6 +215,58 @@ public class OTNLink extends BasicLink{
         }else{
             return true;
         }
+    }
+
+    @Override
+    public boolean addTrafficWork(Traffic traffic) {
+        if(free > 0){
+            for(OTU otu:OTUList){
+                if(otu.getStatus().equals(LinkStatusString.FREE)){
+                    otu.addTrafficeWork(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addTrafficWork(Traffic traffic, String chooseResId) {
+        if(free > 0){
+            for(OTU otu:OTUList){
+                if(otu.getId().equals(chooseResId) && otu.getStatus().equals(LinkStatusString.FREE)){
+                    otu.addTrafficeWork(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addTrafficWorkProtect(Traffic traffic) {
+        if(free > 0){
+            for(OTU otu:OTUList){
+                if(otu.getStatus().equals(LinkStatusString.FREE)){
+                    otu.addTrafficWorkProtect(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addTrafficWorkProtect(Traffic traffic, String chooseResId) {
+        if(free > 0){
+            for(OTU otu:OTUList){
+                if(otu.getId().equals(chooseResId) && otu.getStatus().equals(LinkStatusString.FREE)){
+                    otu.addTrafficWorkProtect(traffic);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public String getCarriedType() {

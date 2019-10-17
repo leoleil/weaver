@@ -6,7 +6,7 @@ public abstract class TraverseAlgorithm {
     //邻接矩阵
     public static final class Adjacency{
         protected int index;
-        protected int weigth = 0;
+        protected double weight = 0;
         protected Adjacency nextAdjacency;
         protected boolean inStack = false;
 
@@ -18,12 +18,12 @@ public abstract class TraverseAlgorithm {
             this.index = index;
         }
 
-        public int getWeigth() {
-            return weigth;
+        public double getWeight() {
+            return weight;
         }
 
-        public void setWeigth(int weigth) {
-            this.weigth = weigth;
+        public void setWeight(double weight) {
+            this.weight = weight;
         }
 
         public Adjacency getNextAdjacency() {
@@ -47,11 +47,13 @@ public abstract class TraverseAlgorithm {
             return this;
         }
 
-        public Adjacency andWeight(int weigth) {
-            this.weigth = weigth;
+        public Adjacency andWeight(double weight) {
+            this.weight = weight;
             return this;
         }
+        //添加邻接表，头插入
         public Adjacency andNextAdjacency(Adjacency nextAdjacency) {
+            nextAdjacency.andNextAdjacency(this.nextAdjacency);
             this.nextAdjacency = nextAdjacency;
             return this;
         }
