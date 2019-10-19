@@ -57,7 +57,8 @@
 
   <servlet-mapping>
     <servlet-name>springmvc</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>/*</url-pattern>
+    <!--  swagger 需要用到 不然 swagger 无法展现  -->
   </servlet-mapping>
 
   <!--配置shiro进行权限管理-->
