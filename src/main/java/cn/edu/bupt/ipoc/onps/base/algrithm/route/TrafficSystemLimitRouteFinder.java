@@ -12,10 +12,11 @@ import cn.edu.bupt.ipoc.onps.model.entity.Traffic;
 import java.util.*;
 
 public class TrafficSystemLimitRouteFinder implements TrafficRouteAlgorithm, KPathTrafficRouteAlgorithm {
+    private String strategy;//策略
+    private double resourceReservation;//资源预留
+    private int hopLimit;//跳数限制
 
-
-    @Override
-    public List<BasicLink> find(List<BasicLink> links, List<CommonNode> nodes, Traffic traffic, String layer, String type, Set<Limit> limits) {
+    public List<BasicLink> find(List<BasicLink> links, List<CommonNode> nodes, Traffic traffic, String layer, String type, Set<Limit> systems) {
         //如果在同一个系统中，单系统内算路
         //如果不在同一个系统中，使用深度优先算路，选取跨系统最少的路
         List<Adjacency> adjacencyList = new ArrayList<>();
@@ -27,6 +28,7 @@ public class TrafficSystemLimitRouteFinder implements TrafficRouteAlgorithm, KPa
             Adjacency adjacency = TraverseAlgorithm.createAdjacency();
             adjacencyList.add(adjacency);
         }
+        //根据策略构建邻接表
         for(BasicLink link: links){
             CommonNode formNode = link.getFromNode();
             CommonNode toNode = link.getToNode();
@@ -42,8 +44,7 @@ public class TrafficSystemLimitRouteFinder implements TrafficRouteAlgorithm, KPa
         return null;
     }
 
-    @Override
-    public List<List<BasicLink>> find(List<BasicLink> links, List<CommonNode> nodes, CommonNode source, CommonNode destination, String layer, double rate, int k) {
+    public List<List<BasicLink>> find(List<BasicLink> links, List<CommonNode> nodes, Traffic traffic, String layer, double rate, int k, Set<Limit> systems) {
         return null;
     }
 }
