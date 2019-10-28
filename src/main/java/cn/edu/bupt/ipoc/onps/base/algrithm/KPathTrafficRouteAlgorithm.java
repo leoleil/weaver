@@ -19,5 +19,5 @@ public interface KPathTrafficRouteAlgorithm {
      * @param k
      * @return
      */
-    List<List<BasicLink>> find (List<BasicLink> links, List<CommonNode> nodes, Traffic traffic, String layer, double rate, int k, Set<Limit> limits) ;
+    List<List<BasicLink>> find (Set<BasicLink> links, Set<CommonNode> nodes, Traffic traffic, String layer, double rate, int k, Set<Limit> limits) ;
 }

@@ -13,11 +13,9 @@ public interface TrafficRouteAlgorithm {
      * 计算业务路由
      * @param links
      * @param nodes
-     * @param traffic
-     * @param layer
      * @param type
      * @param limits
      * @return
      */
-    List<BasicLink> find (List<BasicLink> links, List<CommonNode> nodes, Traffic traffic, String layer, String type, Set<Limit> limits) ;
+    List<BasicLink> find (Set<BasicLink> links, Set<CommonNode> nodes, CommonNode fromNode, CommonNode toNode, String type, Set<Limit> limits) ;
 }
