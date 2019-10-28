@@ -1,5 +1,6 @@
 package cn.edu.bupt.ipoc.onps.model.entity;
 
+import cn.edu.bupt.ipoc.onps.model.HaveTraffic;
 import cn.edu.bupt.ipoc.onps.utils.LayerString;
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
 

@@ -1,4 +1,6 @@
-package cn.edu.bupt.ipoc.onps.model.entity;
+package cn.edu.bupt.ipoc.onps.model;
+
+import cn.edu.bupt.ipoc.onps.model.entity.Traffic;
 
 public interface HaveTraffic {
     boolean addTrafficWork(Traffic traffic);

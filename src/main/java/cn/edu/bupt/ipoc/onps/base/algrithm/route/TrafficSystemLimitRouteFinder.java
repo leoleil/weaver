@@ -6,6 +6,7 @@ import cn.edu.bupt.ipoc.onps.base.algrithm.traverse.DFSAlgorithm;
 import cn.edu.bupt.ipoc.onps.base.algrithm.traverse.TraverseAlgorithm;
 import cn.edu.bupt.ipoc.onps.base.algrithm.traverse.TraverseAlgorithm.Adjacency;
 import cn.edu.bupt.ipoc.onps.model.Limit;
+import cn.edu.bupt.ipoc.onps.model.entity.System;
 import cn.edu.bupt.ipoc.onps.model.entity.BasicLink;
 import cn.edu.bupt.ipoc.onps.model.entity.CommonNode;
 import cn.edu.bupt.ipoc.onps.model.entity.Traffic;
@@ -24,12 +25,14 @@ public class TrafficSystemLimitRouteFinder implements TrafficRouteAlgorithm, KPa
         //如果不在同一个系统中，使用深度优先算路，选取跨系统最少的路
         List<Adjacency> adjacencyList = new ArrayList<>();//邻接数组
         Map<CommonNode,Integer> nodeIntegerMap = new HashMap<>();//节点坐标字典
+        Map<Integer,CommonNode> integerCommonNodeMap = new HashMap<>();
         //初始化邻接表
         Iterator<CommonNode> commonNodeIterator =  nodes.iterator();
         Integer index = 0;
         while (commonNodeIterator.hasNext()){
             CommonNode node = commonNodeIterator.next();
             nodeIntegerMap.put(node,index);
+            integerCommonNodeMap.put(index,node);
             Adjacency adjacency = TraverseAlgorithm.createAdjacency();
             adjacencyList.add(adjacency);
             index ++;
@@ -54,11 +57,64 @@ public class TrafficSystemLimitRouteFinder implements TrafficRouteAlgorithm, KPa
         }
         int ori = nodeIntegerMap.get(origin);
         int des = nodeIntegerMap.get(destination);
+        //全部路由
         List<List<Integer>> allPath = DFSAlgorithm.getInstance().search(adjacencyList,ori,des);
         //找跨系统最少的路
-        //在跨系统最少的情况下找最短的路
+        int[] indexMap = new int[allPath.size()];
+        Set<Integer> minSysIndexSet = new HashSet<>();
+        //List<int[]> array = new ArrayList<>();
+        //找到跨系统数量
+        for(int i = 0 ; i< allPath.size() ; i++){
+            indexMap[i] = 0;
+            for(Limit limit:limits){
+                List<Integer> path = allPath.get(i);
+                System system = (System) limit;
+                for(int j = 0; j<path.size()-1 ; j++){
+                    CommonNode from = integerCommonNodeMap.get(path.get(j));
+                    CommonNode to = integerCommonNodeMap.get(path.get(j+1));
+                    if(system.inTheSomeSystem(from,to))
+                        indexMap[i]++;
+                }
 
-        return null;
+            }
+        }
+        //找到跨系统最少的线路集合
+        int min = Integer.MAX_VALUE;
+        for(int i = 0; i<indexMap.length ;i++){
+            min = indexMap[i] < min ? indexMap[i]:min;
+        }
+        for(int i = 0; i<indexMap.length ;i++){
+            if(indexMap[i] == min){
+                minSysIndexSet.add(i);
+            }
+        }
+        //在跨系统最少的情况下找权值最小的路
+        Iterator iterator = minSysIndexSet.iterator();
+        double minWeight = Double.MAX_VALUE;
+        List<BasicLink> res = new ArrayList<>();
+        while (iterator.hasNext()){
+            List<Integer> path = allPath.get((Integer) iterator.next());
+            for(int i = 0; i<path.size()-1 ; i++){
+                CommonNode from = integerCommonNodeMap.get(path.get(i));
+                CommonNode to = integerCommonNodeMap.get(path.get(i+1));
+                List<BasicLink> route = new ArrayList<>();
+                Double weight = 0.0;
+                for (BasicLink link:
+                links) {
+                    if(link.getFromNode().equals(from) && link.getToNode().equals(to)){
+                        route.add(link);
+                        weight += weightOf(link);
+                    }
+                    if(link.getFromNode().equals(to) && link.getToNode().equals(from)){
+                        weight += weightOf(link);
+                        route.add(link);
+                    }
+                }
+                res = minWeight>weight ? route:res;
+                minWeight = minWeight>weight ? weight:minWeight;
+            }
+        }
+        return res;
     }
 
     public List<List<BasicLink>> find(Set<BasicLink> links, Set<CommonNode> nodes, Traffic traffic, String layer, double rate, int k, Set<Limit> systems) {

@@ -1,6 +1,6 @@
 package cn.edu.bupt.ipoc.onps.model.entity;
 
-import cn.edu.bupt.ipoc.onps.base.exception.LayerOccupyException;
+import cn.edu.bupt.ipoc.onps.model.HaveTraffic;
 import cn.edu.bupt.ipoc.onps.utils.LayerString;
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
 import cn.edu.bupt.ipoc.onps.utils.TypeString;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class WDMLink extends BasicLink implements HaveTraffic{
+public class WDMLink extends BasicLink implements HaveTraffic {
     private String		facilityType;        //设备类型 1--2.5G  2--10G
     private int			newNum;				 //扩波数量
     /*波道信息*/

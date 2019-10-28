@@ -1,5 +1,6 @@
 package cn.edu.bupt.ipoc.onps.model.entity;
 
+import cn.edu.bupt.ipoc.onps.model.HaveTraffic;
 import cn.edu.bupt.ipoc.onps.utils.LayerString;
 import cn.edu.bupt.ipoc.onps.utils.LinkStatusString;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class OTNLink extends BasicLink implements HaveTraffic{
+public class OTNLink extends BasicLink implements HaveTraffic {
     private	String carriedType;//承载媒介，光缆还是WDM
     private List<BasicLink> layerRouteLinkList;//层间路由
     private	List<OTU> OTUList;//包含的ONU链
