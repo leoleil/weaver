@@ -23,7 +23,7 @@ public class FiberLink extends BasicLink {
         private int fualtTime=0;//平均每年故障时间  ？天
         private int completedYear=0;//竣工年份
         private double aveAttenua=0;//平均衰耗
-        private List<Fiber> fibers;//光纤
+        private List<Fiber> fibers = new ArrayList<>();//光纤
         private String perfunctoryWay;//敷设方式
         private String maintianDepartment;//维护单位
 
