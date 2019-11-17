@@ -12,10 +12,10 @@ public class SDHLink extends BasicLink implements HaveTraffic {
     private boolean 		 	        inRing=false;       //链路是否是构成环
     private	String					    carriedType;	    //承载媒介，光缆还是WDM
     private	boolean			            gran=false;         //标示是否复用,false为没有小粒度业务，true为有小粒度业务
-    private List<SDHRing>               SDHRing;            //该SDH链所属环
-    private	List<BasicLink>	 	        layerRouteLinkList;      //如果承载在光缆上的对应的Fiber层链路链表
-    private	List<Timeslot>	 	        timeslotList;       //包含的时隙链
-    private	List<Timeslot>	 	        exTimeslotList;     //扩容时隙
+    private List<SDHRing>               SDHRing = new ArrayList<>();            //该SDH链所属环
+    private	List<BasicLink>	 	        layerRouteLinkList = new ArrayList<>(); //如果承载在光缆上的对应的Fiber层链路链表
+    private	List<Timeslot>	 	        timeslotList = new ArrayList<>();       //包含的时隙链
+    private	List<Timeslot>	 	        exTimeslotList = new ArrayList<>();     //扩容时隙
 
     @Override
     public boolean addTrafficWork(Traffic traffic) {
@@ -277,7 +277,7 @@ public class SDHLink extends BasicLink implements HaveTraffic {
     }
 
     public List<BasicLink> takeLayerRouteLinkList(){
-        return this.layerRouteLinkList;
+            return this.layerRouteLinkList;
     }
 
     public String getCarriedType() {

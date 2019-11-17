@@ -11,5 +11,6 @@ public class LinkStatusString {
     public final static String UNCONFIG = "未配置";
     public final static String WORKRESTORE = "工作恢复";
     public final static String PROTECTRESTORE = "保护恢复";
+    public final static String USELESS = "删除";
     private LinkStatusString(){}
 }

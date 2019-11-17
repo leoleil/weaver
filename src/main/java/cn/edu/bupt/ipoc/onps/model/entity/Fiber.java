@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class Fiber {
     private String id;
-    private BasicLink carryLink;
+    private String carryLink;//承载链路的Id
     private String status = LinkStatusString.FREE;
     private String type = TypeString.OLD;
     private int year;
@@ -34,15 +34,18 @@ public class Fiber {
 
     public boolean addCarryLink(BasicLink link){
         if(status.equals(LinkStatusString.FREE)) {
-            carryLink = link;
+            carryLink = link.getId();
             status = LinkStatusString.MAINTENANCE;
             return true;
         }
-
         return false;
     }
 
-    public BasicLink getCarryLink() {
+    public void release(){
+        status = LinkStatusString.FREE;
+    }
+
+    public String getCarryLink() {
         return carryLink;
     }
 

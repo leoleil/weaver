@@ -13,7 +13,7 @@ public class Wavelength {
     private	int	year;//该波道规划年份
     private int gran;//复用等级
     private Traffic traffic;//承载业务
-    private BasicLink carryLink;//承载的Link
+    private String carryLink;//承载的Link
 
     public Wavelength(String id){
         this.id = id;
@@ -42,7 +42,7 @@ public class Wavelength {
      */
     public boolean addCarryLink(BasicLink link){
         if(status.equals(LinkStatusString.FREE)) {
-            carryLink = link;
+            carryLink = link.getId();
             status = LinkStatusString.MAINTENANCE;
             return true;
         }
@@ -77,6 +77,10 @@ public class Wavelength {
         return false;
     }
 
+    public void release(){
+        status = LinkStatusString.FREE;
+    }
+
     public String getId() {
         return id;
     }
@@ -101,7 +105,7 @@ public class Wavelength {
         return traffic;
     }
 
-    public BasicLink getCarryLink() {
+    public String getCarryLink() {
         return carryLink;
     }
 

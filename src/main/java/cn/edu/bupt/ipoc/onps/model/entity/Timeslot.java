@@ -45,7 +45,9 @@ public class Timeslot {
         }
         return false;
     }
-
+    public void release(){
+        status = LinkStatusString.FREE;
+    }
     public String getId() {
         return id;
     }

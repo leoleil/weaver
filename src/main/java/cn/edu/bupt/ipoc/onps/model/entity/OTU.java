@@ -11,7 +11,7 @@ public class OTU {
     private	int	year;//该ONU规划年份
     private int gran;//复用等级
     private Traffic traffic;//承载业务
-    private BasicLink carryLink;//承载的Link
+    private String carryLink;//承载的Link
 
     public OTU(String id){
         this.id = id;
@@ -30,7 +30,7 @@ public class OTU {
      */
     public boolean addCarryLink(BasicLink link){
         if(status.equals(LinkStatusString.FREE)) {
-            carryLink = link;
+            carryLink = link.getId();
             status = LinkStatusString.MAINTENANCE;
             return true;
         }
@@ -64,7 +64,9 @@ public class OTU {
         }
         return false;
     }
-
+    public void release(){
+        status = LinkStatusString.FREE;
+    }
     public String getId() {
         return id;
     }
@@ -89,7 +91,7 @@ public class OTU {
         return traffic;
     }
 
-    public BasicLink getCarryLink() {
+    public String getCarryLink() {
         return carryLink;
     }
 }

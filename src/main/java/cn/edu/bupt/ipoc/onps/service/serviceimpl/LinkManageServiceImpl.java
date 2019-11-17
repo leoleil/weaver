@@ -99,7 +99,7 @@ public class LinkManageServiceImpl implements LinkManageService {
      */
     @Override
     public boolean deleteFiberLink(String id) throws Exception {
-        Iterator<BasicLink> fiberLinkIteratior = resManagementService.getFiberLinks().iterator();
+        /*Iterator<BasicLink> fiberLinkIteratior = resManagementService.getFiberLinks().iterator();
         while (fiberLinkIteratior.hasNext()){
             FiberLink fiberLink = (FiberLink) fiberLinkIteratior.next();
             if(fiberLink.getId().equals(id)){
@@ -126,12 +126,13 @@ public class LinkManageServiceImpl implements LinkManageService {
             }
 
         }
+        return false;*/
         return false;
     }
 
     @Override
     public WDMLink addWDMLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year) throws Exception {
-        List<CommonNode> nodes = resManagementService.getCommonNodes();
+        /*List<CommonNode> nodes = resManagementService.getCommonNodes();
         CommonNode fromNode = null;
         CommonNode toNode = null;
         for(CommonNode node:nodes){
@@ -159,7 +160,8 @@ public class LinkManageServiceImpl implements LinkManageService {
                 .layerRoute(route)
                 .build();
         resManagementService.getWdmLinks().add(link);
-        return (WDMLink) link;
+        return (WDMLink) link;*/
+        return null;
     }
 
     @Override
@@ -183,7 +185,7 @@ public class LinkManageServiceImpl implements LinkManageService {
 
     @Override
     public boolean deleteWDMLink(String id) throws Exception{
-        Iterator<BasicLink> wdmLinkIterator = resManagementService.getWdmLinks().iterator();
+        /*Iterator<BasicLink> wdmLinkIterator = resManagementService.getWdmLinks().iterator();
         while (wdmLinkIterator.hasNext()){
             WDMLink link = (WDMLink) wdmLinkIterator.next();
             if(link.getId().equals(id)){
@@ -205,13 +207,13 @@ public class LinkManageServiceImpl implements LinkManageService {
                 wdmLinkIterator.remove();
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
     @Override
     public OTNLink addOTNLink(String name, String fromNodeId, String toNodeId, double length, double rate, int size, int year, String layer) throws Exception {
-        List<CommonNode> nodes = resManagementService.getCommonNodes();
+        /*List<CommonNode> nodes = resManagementService.getCommonNodes();
         CommonNode fromNode = null;
         CommonNode toNode = null;
         for(CommonNode node:nodes){
@@ -248,7 +250,8 @@ public class LinkManageServiceImpl implements LinkManageService {
                 .layerRoute(route)
                 .build();
         resManagementService.getOtnLinks().add(link);
-        return (OTNLink) link;
+        return (OTNLink) link;*/
+        return null;
     }
 
     @Override
@@ -271,7 +274,7 @@ public class LinkManageServiceImpl implements LinkManageService {
 
     @Override
     public boolean deleteOTNLink(String id) throws Exception{
-        Iterator<BasicLink> otnLinkIterator = resManagementService.getOtnLinks().iterator();
+        /*Iterator<BasicLink> otnLinkIterator = resManagementService.getOtnLinks().iterator();
         while (otnLinkIterator.hasNext()){
             OTNLink link = (OTNLink) otnLinkIterator.next();
             if(link.getId().equals(id)){
@@ -290,7 +293,7 @@ public class LinkManageServiceImpl implements LinkManageService {
                 otnLinkIterator.remove();
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
@@ -362,7 +365,8 @@ public class LinkManageServiceImpl implements LinkManageService {
         while (sdhIterator.hasNext()){
             BasicLink link = sdhIterator.next();
             if(link.getId().equals(id)){
-                sdhIterator.remove();
+                sdhIterator.remove();//从链路表中移除链路
+                link.setStatus(LinkStatusString.USELESS);//标记链路为删除
                 return true;
             }
         }
