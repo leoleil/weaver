@@ -4,6 +4,7 @@ import cn.edu.bupt.ipoc.onps.model.Node;
 import cn.edu.bupt.ipoc.onps.utils.LayerString;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -193,6 +194,34 @@ public class CommonNode implements Node {
     }
     public List<Port> takeSDHPort(){
         return portOfSDH;
+    }
+
+    public void removePort(String id){
+        Iterator<Port> portIterator = portOfWDM.iterator();
+        while (portIterator.hasNext()){
+            Port port = portIterator.next();
+            if(port.getId().equals(id)){
+                portIterator.remove();
+                return;
+            }
+        }
+        portIterator = portOfOTN.iterator();
+        while (portIterator.hasNext()){
+            Port port = portIterator.next();
+            if(port.getId().equals(id)){
+                portIterator.remove();
+                return;
+            }
+        }
+        portIterator = portOfSDH.iterator();
+        while (portIterator.hasNext()){
+            Port port = portIterator.next();
+            if(port.getId().equals(id)){
+                portIterator.remove();
+                return;
+            }
+        }
+
     }
 
     @Override

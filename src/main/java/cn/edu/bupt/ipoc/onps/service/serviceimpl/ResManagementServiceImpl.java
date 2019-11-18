@@ -168,7 +168,7 @@ public class ResManagementServiceImpl implements ResManagementService {
                 List<Fiber> fibers = fiberLink.getFibers();
                 for (Fiber fiber:fibers){
                     FiberPO fiberPO = null;
-                    if(fiber.getCarryLink() != null && fiber.getCarryLink().getLayer().equals(LayerString.WDM)){
+                    /*if(fiber.getCarryLink() != null && fiber.getCarryLink().getLayer().equals(LayerString.WDM)){
                         fiberPO = new FiberPO(fiber.getId(),sequence++,fiber.getStatus(),link.getId(),fiber.getCarryLink().getId(),null,null);
                     }
                     else if(fiber.getCarryLink() != null && fiber.getCarryLink().getLayer().equals(LayerString.OTN)){
@@ -179,13 +179,13 @@ public class ResManagementServiceImpl implements ResManagementService {
                     }
                     else{
                         fiberPO = new FiberPO(fiber.getId(),sequence++,fiber.getStatus(),link.getId(),null,null,null);
-                    }
+                    }*/
                     fiberPOMapper.insertSelective(fiberPO);
                 }
             }
         }
         //保存WDM链路
-        for(BasicLink link: wdmLinks){
+        /*for(BasicLink link: wdmLinks){
             if(link instanceof WDMLink){
                 WDMLink wdmLink = (WDMLink)link;
                 LinkPO linkPO = new LinkPO(link.getId(),link.getName(),link.getLayer(),link.getId(),link.getFromNode().getId(),
@@ -225,9 +225,9 @@ public class ResManagementServiceImpl implements ResManagementService {
                 if(layerRoutePOList.size() > 0)
                     layerRouteDAO.insertLayerRoute(layerRoutePOList);
             }
-        }
+        }*/
         //保存OTN
-        for(BasicLink link: otnLinks){
+        /*for(BasicLink link: otnLinks){
             if(link instanceof OTNLink){
                 OTNLink otnLink = (OTNLink) link;
                 LinkPO linkPO = new LinkPO(link.getId(),link.getName(),link.getLayer(),link.getId(),link.getFromNode().getId(),
@@ -291,7 +291,7 @@ public class ResManagementServiceImpl implements ResManagementService {
 
                 }
             }
-        }
+        }*/
         //保存SDH
         for(BasicLink link: sdhLinks){
             if(link instanceof SDHLink){

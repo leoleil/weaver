@@ -39,8 +39,8 @@ public class WDMLink extends BasicLink implements HaveTraffic {
         protected Port formPort;//链路首节点端口
         protected Port toPort;//链路尾节点端口
         private List<Wavelength> wavelengthList = new ArrayList<>();	  //该段落所对应的详细波道使用状态
-        private List<BasicLink>	 layerRouteLinkList = new ArrayList<>();  //用来承载该WDM段落的具体的光纤链路链表:层间路由
-        private List<String> fiberIdList = new ArrayList<>();             //用来承载该WDM段落的具体光纤链表
+        private List<BasicLink>	 layerRouteLinkList;  //用来承载该WDM段落的具体的光纤链路链表:层间路由
+        private List<String> fiberIdList;             //用来承载该WDM段落的具体光纤链表
         /**
          * 节点间创建wdm链路
          * 端口自动生成
@@ -330,7 +330,12 @@ public class WDMLink extends BasicLink implements HaveTraffic {
     public String takeToPortId(){
         return this.toPort.getId();
     }
-
+    //在删除链路时使用 解绑端口
+    public void release(){
+        setStatus(LinkStatusString.USELESS);
+        formPort.getBelongsNode().removePort(formPort.getId());
+        toPort.getBelongsNode().removePort(toPort.getId());
+    }
     public List<BasicLink> takeLayerRouteLinkList(){
         return this.layerRouteLinkList;
     }

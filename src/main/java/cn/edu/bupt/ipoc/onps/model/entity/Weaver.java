@@ -93,7 +93,10 @@ public class Weaver {
         return false;
     }
     // 删除节点 只能删除新建节点 如果新建的节点与新建的链路存在关系，则链路也会删除
-    // 通过节点id进行删 失败返回 false 失败的情况可能是节点不存在 或者 要删除节点不是新建的
+    // 通过节点id进行删 失败返回 false
+    // 失败的情况可能是节点不存在
+    // 或者 要删除节点不是新建的
+    // 或者 要删除的节点的链路过于复杂需要先手动拆除链路
     public boolean deleteNode(String id){
         // search node
         CommonNode searchNode = searchNodeById(id);
@@ -147,7 +150,9 @@ public class Weaver {
         return false;
     }
     // 删除链路 是能删除新建链路 如果删除的链路上层有承载 则承载的链路将被删除
-    // 通过链路id进行删 失败返回 false 失败的情况可能是节点不存在 或者 要删除节点不是新建的
+    // 通过链路id进行删 失败返回 false
+    // 失败的情况可能是链路不存在 或者 要删除链路不是新建的
+    // 或者 要删除的链路过于复杂需要把顶层链路先删除
     public boolean deleteLink(String id){
         BasicLink link = searchLinkById(id);
         if (link == null || !link.getType().equals(TypeString.NEW)) return false;
@@ -250,6 +255,7 @@ public class Weaver {
                 sdhIterator.remove();// 从链路表中移除
                 linkSet.remove(link);// 从链路集合中移除
                 link.setStatus(LinkStatusString.USELESS);//标记链路为删除
+                link.release();//解绑端口
                 // 遍历层间路由释放资源
                 for (BasicLink basicLink:link.takeLayerRouteLinkList()
                      ) {
@@ -309,6 +315,7 @@ public class Weaver {
                 otnLinkIterator.remove();
                 linkSet.remove(link);
                 link.setStatus(LinkStatusString.USELESS);//标记链路为删除
+                link.release();//解绑端口
                 // 释放底层资源
                 for (BasicLink basicLink:link.takeLayerRouteLinkList()
                 ) {
@@ -357,6 +364,7 @@ public class Weaver {
                 wdmLinkIterator.remove();
                 linkSet.remove(link);
                 link.setStatus(LinkStatusString.USELESS);
+                link.release();//解绑端口
                 // 释放底层资源
                 for (BasicLink basicLink:link.takeLayerRouteLinkList()
                 ) {

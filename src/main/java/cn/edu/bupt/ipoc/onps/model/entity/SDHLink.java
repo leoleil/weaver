@@ -93,7 +93,7 @@ public class SDHLink extends BasicLink implements HaveTraffic {
             this.formPort = new Port(LayerString.SDH);
             this.toPort = new Port(LayerString.SDH);
             formPort.setBelongsNode(fromNode);
-            formPort.setBelongsNode(toNode);
+            toPort.setBelongsNode(toNode);
             fromNode.addPort(formPort);
             toNode.addPort(toPort);
         }
@@ -110,7 +110,7 @@ public class SDHLink extends BasicLink implements HaveTraffic {
             this.formPort = new Port(LayerString.SDH);
             this.toPort = new Port(LayerString.SDH);
             formPort.setBelongsNode(fromNode);
-            formPort.setBelongsNode(toNode);
+            toPort.setBelongsNode(toNode);
             fromNode.addPort(formPort);
             toNode.addPort(toPort);
         }
@@ -275,7 +275,12 @@ public class SDHLink extends BasicLink implements HaveTraffic {
     public String takeToPortId(){
         return this.toPort.getId();
     }
-
+    //在删除链路时使用 解绑端口
+    public void release(){
+        setStatus(LinkStatusString.USELESS);
+        formPort.getBelongsNode().removePort(formPort.getId());
+        toPort.getBelongsNode().removePort(toPort.getId());
+    }
     public List<BasicLink> takeLayerRouteLinkList(){
             return this.layerRouteLinkList;
     }
