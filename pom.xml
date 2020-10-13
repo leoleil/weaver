@@ -34,7 +34,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.1</version>
       <!-- 这个属性是指，开发的时候是需要导入的，但是发布的时候并不导入 -->
       <scope>test</scope>
     </dependency>
